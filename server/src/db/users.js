@@ -3,11 +3,7 @@ export default class {
     this.db = db
   }
 
-  addUser () {
-    this.db.run('', [], function (err) {
-      if (err) {
-        return console.log(err.message)
-      }
-    })
+  add (email, password, pseudo, callback) {
+    this.db.run('INSERT INTO users (email, password, pseudo)  Values(?, ?, ?)', [email, password, pseudo], callback)
   }
 }
