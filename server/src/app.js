@@ -3,6 +3,7 @@ import helmet from 'helmet'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import morgan from 'morgan'
+import session from 'express-session'
 
 import DataBase from './db/db'
 import loadUserRoute from './routes/users'
@@ -20,6 +21,12 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(helmet())
+app.set('trust proxy', 1)
+app.use(session({
+  secret: 'plrplhplrpzlqzf nnasasjxjvrvnr',
+  resave: false,
+  saveUninitialized: true
+}))
 
 loadUserRoute(api, router, db)
 app.use(router)
