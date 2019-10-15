@@ -63,6 +63,16 @@ export default (api, router, db) => {
     })
   })
 
+  router.route(api + 'users/logout').get((req, res) => {
+    if (!req.session.userid) {
+      res.status(400).json({ error: 'not_logged' })
+      return
+    }
+
+    delete req.session.userid
+    res.json({})
+  })
+
   router.route(api + 'users/logout').post((req, res) => {
     if (!req.session.userid) {
       res.status(400).json({ error: 'not_logged' })
