@@ -17,14 +17,18 @@ const router = express.Router()
 const db = new DataBase('./db.db')
 
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors({
+  origin: ['http://localhost:8080'],
+  credentials: true
+}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(helmet())
+app.use(helmet.noCache())
 app.set('trust proxy', 1)
 app.use(session({
   secret: 'plrplhplrpzlqzf nnasasjxjvrvnr',
-  resave: false,
+  resave: true,
   saveUninitialized: true
 }))
 

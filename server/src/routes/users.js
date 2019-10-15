@@ -55,6 +55,7 @@ export default (api, router, db) => {
 
       if (row === undefined) {
         res.status(400).json({ error: 'cant_login' })
+        return
       }
 
       delete row.password
