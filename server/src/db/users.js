@@ -10,4 +10,8 @@ export default class {
   login (email, password, callback) {
     this.db.get('SELECT * FROM users where email=? AND password=?', [email, password], callback)
   }
+
+  get (id, callback) {
+    this.db.get('SELECT * FROM users where id=?', [id], callback)
+  }
 }

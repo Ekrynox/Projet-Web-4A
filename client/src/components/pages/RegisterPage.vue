@@ -9,8 +9,8 @@
           <v-text-field v-model="password" type="password" label="Password" outlined/>
         </v-col>
         <v-col :cols="12" >
-          <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/register')" dark>Create an Account</v-btn>
-          <v-btn class="ma-2" tile color="primary" @click="submit">Login</v-btn>
+          <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/login')" dark>Already have an Account</v-btn>
+          <v-btn class="ma-2" tile color="primary">Register</v-btn>
         </v-col>
       </form>
     </v-sheet>
@@ -23,17 +23,6 @@ export default {
     return {
       email: '',
       password: ''
-    }
-  },
-  methods: {
-    submit: function () {
-      this.$store.dispatch('login', { email: this.email, password: this.password }).then((data) => {
-        if (data.error === undefined || data.error === 'already_logged') {
-          if (this.$store.getters.isLogged) {
-            this.$router.replace('/')
-          }
-        }
-      })
     }
   }
 }

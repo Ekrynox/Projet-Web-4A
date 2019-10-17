@@ -15,6 +15,45 @@ export default {
     setUser: (state, user) => { state.user = user }
   },
   actions: {
+    getUser (store, id) {
+      if (id === undefined) {
+        return new Promise(function (resolve, reject) {
+          axios({
+            method: 'get',
+            url: store.getters.getApi + 'users?timestamp=' + new Date().getTime(),
+            responseType: 'json',
+            withCredentials: true
+          })
+            .then((response) => {
+              if (response.data.error === undefined) {
+                store.commit('setLogged', true)
+                store.commit('setUser', response.data)
+              } else {
+                store.commit('setLogged', false)
+                store.commit('setUser', null)
+              }
+              resolve(response.data)
+            })
+            .catch((error) => {
+              reject(error.response.data)
+            })
+        })
+      }
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'get',
+          url: store.getters.getApi + 'users/' + id + '?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          withCredentials: true
+        })
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error.response.data)
+          })
+      })
+    },
     login (store, { email, password }) {
       return new Promise(function (resolve, reject) {
         axios({
@@ -33,7 +72,7 @@ export default {
             resolve(response.data)
           })
           .catch((error) => {
-            resolve(error.response.data)
+            reject(error.response.data)
           })
       })
     }
