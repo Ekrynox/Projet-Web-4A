@@ -58,7 +58,7 @@ export default {
       return new Promise(function (resolve, reject) {
         axios({
           method: 'post',
-          url: store.getters.getApi + 'users/login?timestamp=' + new Date().getTime(),
+          url: store.getters.getApi + 'login?timestamp=' + new Date().getTime(),
           responseType: 'json',
           data: {
             email: email,
@@ -67,8 +67,49 @@ export default {
           withCredentials: true
         })
           .then((response) => {
-            store.commit('setLogged', true)
-            store.commit('setUser', response.data)
+            if (response.data.error === undefined) {
+              store.commit('setLogged', true)
+              store.commit('setUser', response.data)
+            }
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error.response.data)
+          })
+      })
+    },
+    logout (store) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'post',
+          url: store.getters.getApi + 'logout?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          withCredentials: true
+        })
+          .then((response) => {
+            store.commit('setLogged', false)
+            store.commit('setUser', null)
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error.response.data)
+          })
+      })
+    },
+    register (store, { email, pseudo, password }) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'post',
+          url: store.getters.getApi + 'users?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          data: {
+            email: email,
+            pseudo: pseudo,
+            password: password
+          },
+          withCredentials: true
+        })
+          .then((response) => {
             resolve(response.data)
           })
           .catch((error) => {

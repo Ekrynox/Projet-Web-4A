@@ -57,12 +57,19 @@ export default (api, router, db) => {
         res.json({ error: 'cant_create' })
         return console.log(err.message)
       }
+
+      db.users.addPseudo(htmlspecialchars(req.body.pseudo), function (err) {
+        if (err) {
+          console.log(err.message)
+        }
+      })
+
       res.json({})
     })
   })
 
   // Connect to the server (POST)
-  router.route(api + 'users/login').post((req, res) => {
+  router.route(api + 'login').post((req, res) => {
     if (req.session.userid) {
       res.json({ error: 'already_logged' })
       return
@@ -91,7 +98,7 @@ export default (api, router, db) => {
   })
 
   // Log out from the server (GET)
-  router.route(api + 'users/logout').get((req, res) => {
+  router.route(api + 'logout').get((req, res) => {
     if (!req.session.userid) {
       res.json({ error: 'not_logged' })
       return
