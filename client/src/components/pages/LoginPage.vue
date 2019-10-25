@@ -3,10 +3,10 @@
     <v-sheet elevation="4" width="fit-content">
       <form ref="form">
         <v-col :cols="12">
-          <v-text-field v-model="email" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined required/>
+          <v-text-field v-model="email" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined required/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="password" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined required/>
+          <v-text-field v-model="password" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined required/>
         </v-col>
         <v-col :cols="12" >
           <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/register')" dark>Create an Account</v-btn>

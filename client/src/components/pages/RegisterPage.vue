@@ -3,16 +3,16 @@
     <v-sheet elevation="4" width="fit-content">
       <form ref="form">
         <v-col :cols="12">
-          <v-text-field v-model="email" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined/>
+          <v-text-field v-model="email" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="pseudo" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo" outlined/>
+          <v-text-field v-model="pseudo" @keyup.enter="submit" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo" outlined/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="password" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined/>
+          <v-text-field v-model="password" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="passwordbis" @change="$v.passwordbis.$touch()" @blur="$v.passwordbis.$touch()" :error-messages="passwordBisErrors" type="password" label="Password Confirmation" outlined/>
+          <v-text-field v-model="passwordbis" @keyup.enter="submit" @change="$v.passwordbis.$touch()" @blur="$v.passwordbis.$touch()" :error-messages="passwordBisErrors" type="password" label="Password Confirmation" outlined/>
         </v-col>
         <v-col :cols="12" >
           <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/login')" dark>Already have an Account</v-btn>
