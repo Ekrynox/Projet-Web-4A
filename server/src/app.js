@@ -36,7 +36,7 @@ app.use(session({
 loadUserRoute(api, router, db)
 loadAuthRoute(api, router, db)
 app.use(router)
-app.use(express.static('static'))
+app.use(express.static('./static'))
 
 app.listen(port, hostname, function () {
   console.log('Server Start: ' + hostname + ':' + port + '\n')
