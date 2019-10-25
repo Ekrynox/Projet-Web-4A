@@ -6,7 +6,7 @@
           <v-text-field v-model="email" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="pseudo" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="PSeudo" outlined/>
+          <v-text-field v-model="pseudo" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo" outlined/>
         </v-col>
         <v-col :cols="12">
           <v-text-field v-model="password" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined/>
