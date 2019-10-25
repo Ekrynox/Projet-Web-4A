@@ -7,6 +7,7 @@ import session from 'express-session'
 
 import DataBase from './db/db'
 import loadUserRoute from './routes/users'
+import loadAuthRoute from './routes/auth'
 
 var hostname = 'localhost'
 var port = 80
@@ -33,6 +34,7 @@ app.use(session({
 }))
 
 loadUserRoute(api, router, db)
+loadAuthRoute(api, router, db)
 app.use(router)
 
 app.listen(port, hostname, function () {
