@@ -34,7 +34,7 @@ export default (api, router, db) => {
       }
 
       if (rows === undefined) {
-        res.json({ error: 'user_not_found' })
+        res.json([])
         return
       }
 
