@@ -1,26 +1,26 @@
 <template>
-  <div class="d-flex justify-center">
-    <v-sheet elevation="4" width="fit-content">
+  <v-row align="center" justify="center">
+    <v-card :loading="loading" raised>
       <form ref="form">
         <v-col :cols="12">
-          <v-text-field v-model="email" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined/>
+          <v-text-field v-model="email" prepend-icon="mdi-at" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com"/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="pseudo" @keyup.enter="submit" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo" outlined/>
+          <v-text-field v-model="pseudo" prepend-icon="mdi-account" @keyup.enter="submit" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo"/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="password" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined/>
+          <v-text-field v-model="password" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password"/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="passwordbis" @keyup.enter="submit" @change="$v.passwordbis.$touch()" @blur="$v.passwordbis.$touch()" :error-messages="passwordBisErrors" type="password" label="Password Confirmation" outlined/>
+          <v-text-field v-model="passwordbis" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.passwordbis.$touch()" @blur="$v.passwordbis.$touch()" :error-messages="passwordBisErrors" type="password" label="Password Confirmation"/>
         </v-col>
         <v-col :cols="12" >
           <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/login')" dark>Already have an Account</v-btn>
           <v-btn class="ma-2" tile color="primary" @click="submit">Register</v-btn>
         </v-col>
       </form>
-    </v-sheet>
-  </div>
+    </v-card>
+  </v-row>
 </template>
 
 <script>
@@ -42,13 +42,15 @@ export default {
       email: '',
       pseudo: '',
       password: '',
-      passwordbis: ''
+      passwordbis: '',
+      loading: false
     }
   },
   methods: {
     submit: function () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
+        this.loading = true
         this.$store.dispatch('register', { email: this.email, pseudo: this.pseudo, password: this.password }).then((data) => {
           if (data.error === undefined) {
             if (!this.$store.getters.isLogged) {
@@ -61,6 +63,10 @@ export default {
               this.$router.replace('/')
             }
           }
+          this.loading = false
+        }, (err) => {
+          console.log(err)
+          this.loading = false
         })
       }
     }

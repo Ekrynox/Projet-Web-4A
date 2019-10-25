@@ -1,20 +1,20 @@
 <template>
-  <div class="d-flex justify-center">
-    <v-sheet elevation="4" width="fit-content">
+  <v-row align="center" justify="center">
+    <v-card :loading="loading" raised>
       <form ref="form">
         <v-col :cols="12">
-          <v-text-field v-model="email" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined required/>
+          <v-text-field v-model="email" prepend-icon="mdi-at" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" required/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="password" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined required/>
+          <v-text-field v-model="password" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" required/>
         </v-col>
         <v-col :cols="12" >
           <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/register')" dark>Create an Account</v-btn>
           <v-btn class="ma-2" tile color="primary" @click="submit">Login</v-btn>
         </v-col>
       </form>
-    </v-sheet>
-  </div>
+    </v-card>
+  </v-row>
 </template>
 
 <script>
@@ -32,19 +32,25 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      loading: false
     }
   },
   methods: {
     submit: function () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
+        this.loading = true
         this.$store.dispatch('login', { email: this.email, password: this.password }).then((data) => {
           if (data.error === undefined || data.error === 'already_logged') {
             if (this.$store.getters.isLogged) {
               this.$router.replace('/')
             }
           }
+          this.loading = false
+        }, (err) => {
+          console.log(err)
+          this.loading = false
         })
       }
     }
