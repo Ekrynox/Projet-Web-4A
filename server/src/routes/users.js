@@ -25,6 +25,54 @@ export default (api, router, db) => {
     res.json({ error: 'not_logged' })
   })
 
+  // Search for users from which the pseudo start by the filter
+  router.route(api + 'users/search/:filter').get((req, res) => {
+    db.users.search(req.params.filter, function (err, rows) {
+      if (err) {
+        res.json({ error: 'db_error' })
+        return console.log(err.message)
+      }
+
+      if (rows === undefined) {
+        res.json({ error: 'user_not_found' })
+        return
+      }
+
+      for (const i in rows) {
+        delete rows[i].groups
+        delete rows[i].friends
+        delete rows[i].email
+        delete rows[i].password
+      }
+      res.json(rows)
+    })
+  })
+
+  // retrieve an user with his id
+  router.route(api + 'users/:id').get((req, res) => {
+    if (req.params.id > 0) {
+      db.users.get(req.params.id, function (err, row) {
+        if (err) {
+          res.json({ error: 'db_error' })
+          return console.log(err.message)
+        }
+
+        if (row === undefined) {
+          res.json({ error: 'user_not_found' })
+          return
+        }
+
+        delete row.groups
+        delete row.friends
+        delete row.email
+        delete row.password
+        res.json(row)
+      })
+      return
+    }
+    res.json({ error: 'invalid_id' })
+  })
+
   // Add a new user (POST)
   router.route(api + 'users').post((req, res) => {
     if (req.session.userid) {

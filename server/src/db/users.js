@@ -20,6 +20,6 @@ export default class {
   }
 
   search (filter, callback) {
-    this.db.get('SELECT * FROM users WHERE pseudo IN (SELECT pseudo FROM users_pseudo WHERE pseudo MATCH ?)', [filter + '*'], callback)
+    this.db.all('SELECT * FROM users WHERE pseudo IN (SELECT pseudo FROM users_pseudo WHERE pseudo MATCH ?)', [filter + '*'], callback)
   }
 }
