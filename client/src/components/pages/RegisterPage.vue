@@ -3,10 +3,13 @@
     <v-sheet elevation="4" width="fit-content">
       <form ref="form">
         <v-col :cols="12">
-          <v-text-field v-model="email" label="Email" placeholder="xyz@example.com" outlined/>
+          <v-text-field v-model="email" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="password" type="password" label="Password" outlined/>
+          <v-text-field v-model="password" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined/>
+        </v-col>
+        <v-col :cols="12">
+          <v-text-field v-model="passwordbis" type="password" label="Password" outlined/>
         </v-col>
         <v-col :cols="12" >
           <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/login')" dark>Already have an Account</v-btn>
@@ -18,11 +21,47 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import { required, email, minLength, maxLength, sameAs, helpers } from 'vuelidate/lib/validators'
+
+const passwordRegex = (value) => helpers.regex(value, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,32}$/)
+
 export default {
+  mixins: [validationMixin],
+  validations: {
+    email: { required, email },
+    password: { required, minLength: minLength(8), maxLength: maxLength(32), passwordRegex },
+    passwordbis: { sameAs: sameAs('password') }
+  },
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      passwordbis: ''
+    }
+  },
+  computed: {
+    emailErrors () {
+      const errors = []
+      if (!this.$v.email.$dirty) return errors
+      !this.$v.email.required && errors.push('An email is required')
+      !this.$v.email.email && errors.push('Invalid email syntax')
+      return errors
+    },
+    passwordErrors () {
+      const errors = []
+      if (!this.$v.password.$dirty) return errors
+      !this.$v.password.required && errors.push('A password is required')
+      !this.$v.password.minLength && errors.push('Passworld should have at least 8 chararcters')
+      !this.$v.password.maxLength && errors.push('Passworld should have maximum 32 chararcters')
+      !this.$v.password.passwordRegex && errors.push('Passworld should contains at least one of each: Lower, Upper, digit, Special')
+      return errors
+    },
+    passwordBisErrors () {
+      const errors = []
+      if (!this.$v.passwordbis.$dirty) return errors
+      !this.$v.passwordbis.sameAs && errors.push('Password didn\'t match')
+      return errors
     }
   }
 }

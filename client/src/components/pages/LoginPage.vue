@@ -3,10 +3,10 @@
     <v-sheet elevation="4" width="fit-content">
       <form ref="form">
         <v-col :cols="12">
-          <v-text-field v-model="email" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailIdErrors" label="Email" placeholder="xyz@example.com" outlined required/>
+          <v-text-field v-model="email" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" outlined required/>
         </v-col>
         <v-col :cols="12">
-          <v-text-field v-model="password" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordIdErrors" type="password" label="Password" outlined required/>
+          <v-text-field v-model="password" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" outlined required/>
         </v-col>
         <v-col :cols="12" >
           <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/register')" dark>Create an Account</v-btn>
@@ -19,13 +19,15 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, email, minLength, maxLength, helpers } from 'vuelidate/lib/validators'
+
+const passwordRegex = (value) => helpers.regex(value, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,32}$/)
 
 export default {
   mixins: [validationMixin],
   validations: {
     email: { required, email },
-    password: { required, minLength: minLength(8) }
+    password: { required, minLength: minLength(8), maxLength: maxLength(32), passwordRegex }
   },
   data () {
     return {
@@ -48,18 +50,20 @@ export default {
     }
   },
   computed: {
-    emailIdErrors () {
+    emailErrors () {
       const errors = []
       if (!this.$v.email.$dirty) return errors
       !this.$v.email.required && errors.push('An email is required')
       !this.$v.email.email && errors.push('Invalid email syntax')
       return errors
     },
-    passwordIdErrors () {
+    passwordErrors () {
       const errors = []
       if (!this.$v.password.$dirty) return errors
       !this.$v.password.required && errors.push('A password is required')
       !this.$v.password.minLength && errors.push('Passworld should have at least 8 chararcters')
+      !this.$v.password.maxLength && errors.push('Passworld should have maximum 32 chararcters')
+      !this.$v.password.passwordRegex && errors.push('Passworld should contains at least one of each: Lower, Upper, digit, Special')
       return errors
     }
   }
