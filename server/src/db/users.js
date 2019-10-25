@@ -12,10 +12,14 @@ export default class {
   }
 
   login (email, password, callback) {
-    this.db.get('SELECT * FROM users where email=? AND password=?', [email, password], callback)
+    this.db.get('SELECT * FROM users WHERE email=? AND password=?', [email, password], callback)
   }
 
   get (id, callback) {
-    this.db.get('SELECT * FROM users where id=?', [id], callback)
+    this.db.get('SELECT * FROM users WHERE id=?', [id], callback)
+  }
+
+  search (filter, callback) {
+    this.db.get('SELECT * FROM users WHERE pseudo IN (SELECT pseudo FROM users_pseudo WHERE pseudo MATCH ?)', [filter + '*'], callback)
   }
 }
