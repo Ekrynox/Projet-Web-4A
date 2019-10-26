@@ -1,8 +1,8 @@
 <template>
   <v-row class="fill-height">
     <v-col :cols="3" class="d-flex flex-column">
-      <v-text-field prepend-inner-icon="mdi-magnify" label="Search..." solo />
-      <UsersList/>
+      <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
+      <UsersList :users="users"/>
     </v-col>
     <v-col :cols="9">
       <MessagesList />
@@ -15,6 +15,27 @@ import UsersList from '../UsersList'
 import MessagesList from '../MessagesList'
 
 export default {
-  components: { UsersList, MessagesList }
+  components: { UsersList, MessagesList },
+  data: function () {
+    return {
+      filter: '',
+      users: []
+    }
+  },
+  watch: {
+    filter: function (val) {
+      if (val === '') {
+        this.users = []
+      } else {
+        this.$store.dispatch('searchUsers', val).then((data) => {
+          if (data.error === undefined) {
+            this.users = data
+          } else {
+            this.users = []
+          }
+        })
+      }
+    }
+  }
 }
 </script>
