@@ -40,6 +40,9 @@ export default {
       } else {
         this.$router.push('/')
       }
+    }, (err) => {
+      console.log(err)
+      this.$router.push('/login')
     })
   }
 }
