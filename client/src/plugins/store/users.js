@@ -54,6 +54,25 @@ export default {
           })
       })
     },
+    searchUsers (store, filter) {
+      if (filter === undefined) {
+        filter = ''
+      }
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'get',
+          url: store.getters.getApi + 'users/search/' + filter + '?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          withCredentials: true
+        })
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
     register (store, { email, pseudo, password }) {
       return new Promise(function (resolve, reject) {
         axios({
