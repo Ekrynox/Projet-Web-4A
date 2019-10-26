@@ -38,7 +38,7 @@ export default {
       if (!this.$store.getters.isLogged) {
         this.$router.push('/login')
       } else {
-        this.$router.replace('/msg')
+        this.$router.push('/')
       }
     })
   }

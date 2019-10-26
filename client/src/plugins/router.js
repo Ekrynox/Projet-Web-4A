@@ -9,6 +9,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    { path: '/', redirect: '/msg' },
     { path: '/contacts', component: ContactsPage },
     { path: '/login', component: LoginPage },
     { path: '/register', component: RegisterPage }
