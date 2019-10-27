@@ -1,6 +1,6 @@
 export default (api, router, db) => {
   // Get user's friends list (GET)
-  router.route(api + 'users/friends').get((req, res) => {
+  router.route(api + 'friends').get((req, res) => {
     if (req.session.userid) {
       db.friends.get(req.session.userid, function (err, rows) {
         if (err) {
@@ -26,7 +26,7 @@ export default (api, router, db) => {
   })
 
   // Add a user to the friends list (POST)
-  router.route(api + 'users/friends').post((req, res) => {
+  router.route(api + 'friends').post((req, res) => {
     if (req.session.userid) {
       if (req.body === undefined || req.body.id === undefined) {
         res.json({ error: 'missing_parameters' })
