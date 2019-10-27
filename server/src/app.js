@@ -9,6 +9,7 @@ import DataBase from './db/db'
 import loadAuthRoute from './routes/auth'
 import loadFriendsRoute from './routes/friends'
 import loadUsersRoute from './routes/users'
+import loadMessagesRoute from './routes/messages'
 
 var hostname = 'localhost'
 var port = 80
@@ -37,6 +38,7 @@ app.use(session({
 loadAuthRoute(api, router, db)
 loadFriendsRoute(api, router, db)
 loadUsersRoute(api, router, db)
+loadMessagesRoute(api, router, db)
 app.use(router)
 app.use(express.static('./static'))
 
