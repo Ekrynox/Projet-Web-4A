@@ -25,9 +25,9 @@ export default (api, router, db) => {
   })
 
   // Add a user to the friends list (POST)
-  router.route(api + 'friends').post((req, res) => {
+  router.route(api + 'messages').post((req, res) => {
     if (req.session.userid) {
-      if (req.body === undefined || req.body.id === undefined) {
+      if (req.body === undefined || req.body.id === undefined || req.body.data === undefined) {
         res.json({ error: 'missing_parameters' })
         return
       }
@@ -42,7 +42,7 @@ export default (api, router, db) => {
         return
       }
 
-      db.friends.add(req.session.userid, req.body.id, function (err) {
+      db.messages.add(req.session.userid, req.body.id, req.body.data, function (err) {
         if (err) {
           res.json({ error: 'cant_add' })
           return console.log(err.message)
