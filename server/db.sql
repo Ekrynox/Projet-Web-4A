@@ -1,13 +1,13 @@
 --
--- Fichier généré par SQLiteStudio v3.2.1 sur dim. oct. 27 09:43:11 2019
+-- Fichier gï¿½nï¿½rï¿½ par SQLiteStudio v3.2.1 sur dim. oct. 27 09:43:11 2019
 --
--- Encodage texte utilisé : System
+-- Encodage texte utilisï¿½ : System
 --
 PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
 -- Table : friends
-CREATE TABLE friends (user1 INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL, user2 INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL);
+CREATE TABLE users_friends (user1 INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL, user2 INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL);
 
 -- Table : groups
 CREATE TABLE groups (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, Name TEXT NOT NULL, users TEXT NOT NULL DEFAULT ('[]'));
