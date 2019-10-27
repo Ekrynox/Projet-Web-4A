@@ -59,11 +59,6 @@ export default (api, router, db) => {
   // Remove a user from the friends list (DELETE)
   router.route(api + 'friends/:id').delete((req, res) => {
     if (req.session.userid) {
-      if (req.params === undefined || req.params.id === undefined) {
-        res.json({ error: 'missing_parameters' })
-        return
-      }
-
       if (req.params.id <= 0) {
         res.json({ error: 'invalid_id' })
         return

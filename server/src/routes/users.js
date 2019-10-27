@@ -54,25 +54,26 @@ export default (api, router, db) => {
   // retrieve an user with his id
   router.route(api + 'users/:id').get((req, res) => {
     if (req.params.id > 0) {
-      db.users.get(req.params.id, function (err, row) {
-        if (err) {
-          res.json({ error: 'db_error' })
-          return console.log(err.message)
-        }
-
-        if (row === undefined) {
-          res.json({ error: 'user_not_found' })
-          return
-        }
-
-        delete row.groups
-        delete row.email
-        delete row.password
-        res.json(row)
-      })
+      res.json({ error: 'invalid_id' })
       return
     }
-    res.json({ error: 'invalid_id' })
+
+    db.users.get(req.params.id, function (err, row) {
+      if (err) {
+        res.json({ error: 'db_error' })
+        return console.log(err.message)
+      }
+
+      if (row === undefined) {
+        res.json({ error: 'user_not_found' })
+        return
+      }
+
+      delete row.groups
+      delete row.email
+      delete row.password
+      res.json(row)
+    })
   })
 
   // Add a new user (POST)
