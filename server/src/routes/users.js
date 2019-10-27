@@ -46,6 +46,7 @@ export default (api, router, db) => {
         }
         res.json(rows)
       })
+      return
     }
     res.json({ error: 'not_logged' })
   })
