@@ -27,25 +27,27 @@ export default (api, router, db) => {
 
   // Search for users from which the pseudo start by the filter
   router.route(api + 'users/search/:filter').get((req, res) => {
-    db.users.search(req.params.filter, function (err, rows) {
-      if (err) {
-        res.json({ error: 'db_error' })
-        return console.log(err.message)
-      }
+    if (req.session.userid) {
+      db.users.search(req.params.filter, function (err, rows) {
+        if (err) {
+          res.json({ error: 'db_error' })
+          return console.log(err.message)
+        }
 
-      if (rows === undefined) {
-        res.json([])
-        return
-      }
+        if (rows === undefined) {
+          res.json([])
+          return
+        }
 
-      for (const i in rows) {
-        delete rows[i].groups
-        delete rows[i].friends
-        delete rows[i].email
-        delete rows[i].password
-      }
-      res.json(rows)
-    })
+        for (const i in rows) {
+          delete rows[i].groups
+          delete rows[i].email
+          delete rows[i].password
+        }
+        res.json(rows)
+      })
+    }
+    res.json({ error: 'not_logged' })
   })
 
   // retrieve an user with his id
@@ -63,7 +65,6 @@ export default (api, router, db) => {
         }
 
         delete row.groups
-        delete row.friends
         delete row.email
         delete row.password
         res.json(row)

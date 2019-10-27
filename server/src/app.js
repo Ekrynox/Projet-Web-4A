@@ -6,8 +6,9 @@ import morgan from 'morgan'
 import session from 'express-session'
 
 import DataBase from './db/db'
-import loadUserRoute from './routes/users'
 import loadAuthRoute from './routes/auth'
+import loadFriendsRoute from './routes/friends'
+import loadUsersRoute from './routes/users'
 
 var hostname = 'localhost'
 var port = 80
@@ -33,8 +34,9 @@ app.use(session({
   saveUninitialized: true
 }))
 
-loadUserRoute(api, router, db)
 loadAuthRoute(api, router, db)
+loadFriendsRoute(api, router, db)
+loadUsersRoute(api, router, db)
 app.use(router)
 app.use(express.static('./static'))
 
