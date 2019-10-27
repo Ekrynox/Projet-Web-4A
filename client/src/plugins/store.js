@@ -14,7 +14,7 @@ export default new Vuex.Store({
     MessagesStore
   },
   state: {
-    api: 'http://localhost/api/'
+    api: process.env.VUE_APP_API
   },
   getters: {
     getApi (state) {
