@@ -2,10 +2,10 @@
   <v-row class="fill-height">
     <v-col :cols="3" class="d-flex flex-column">
       <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
-      <UsersList :users="filter !== '' ? users : this.$store.getters.getFriends"/>
+      <UsersList :users="filter !== '' ? users : this.$store.getters.getFriends" v-model="selectedUser"/>
     </v-col>
     <v-col :cols="9">
-      <MessagesList />
+      <MessagesList :user="selectedUser"/>
     </v-col>
   </v-row>
 </template>
@@ -19,7 +19,8 @@ export default {
   data: function () {
     return {
       filter: '',
-      users: []
+      users: [],
+      selectedUser: undefined
     }
   },
   watch: {

@@ -2,7 +2,7 @@
   <v-card class="fill-height" tile>
     <v-list>
       <v-list-item-group v-model="user" color="primary">
-        <v-list-item v-for="user in users" :key="user.id">
+        <v-list-item v-for="(user, i) in users" :key="i" :value="user">
           <v-list-item-content>
             <v-list-item-title v-text="user.pseudo" />
           </v-list-item-content>
@@ -26,6 +26,10 @@
 
 <script>
 export default {
+  model: {
+    prop: 'user',
+    event: 'change'
+  },
   props: {
     users: {
       type: Array,
@@ -34,7 +38,15 @@ export default {
   },
   data: function () {
     return {
-      user: ''
+      user: undefined
+    }
+  },
+  watch: {
+    users: function (val) {
+      this.user = undefined
+    },
+    user: function (val) {
+      this.$emit('change', val)
     }
   }
 }
