@@ -60,11 +60,8 @@ export default {
       return new Promise(function (resolve, reject) {
         axios({
           method: 'delete',
-          url: store.getters.getApi + 'friends?timestamp=' + new Date().getTime(),
+          url: store.getters.getApi + 'friends/' + id + '?timestamp=' + new Date().getTime(),
           responseType: 'json',
-          data: {
-            id: id
-          },
           withCredentials: true
         })
           .then((response) => {
