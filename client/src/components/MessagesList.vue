@@ -14,7 +14,7 @@ export default {
   components: { Message },
   props: {
     user: {
-      required: true,
+      required: true
     }
   },
   data: function () {
@@ -37,7 +37,10 @@ export default {
       if (this.user === undefined || this.user.id === undefined) {
         return
       }
-      this.update(this.user.id)
+      this.$store.dispatch('addMessage', { id: this.user.id, data: JSON.stringify({ text: this.message }) }).then((data) => {
+        this.message = ''
+        this.update(this.user.id)
+      })
     },
     update: function (id) {
       this.$store.dispatch('getMessages', id).then((data) => {
