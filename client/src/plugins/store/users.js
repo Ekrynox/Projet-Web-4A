@@ -8,7 +8,8 @@ export default {
   getters: {
     isLogged (state) {
       return state.logged
-    }
+    },
+    getUser: (state) => state.user
   },
   mutations: {
     setLogged: (state, logged) => { state.logged = logged },

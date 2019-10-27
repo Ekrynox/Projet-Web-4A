@@ -38,6 +38,7 @@ export default {
       if (!this.$store.getters.isLogged) {
         this.$router.push('/login')
       } else {
+        this.$store.dispatch('getFriends')
         this.$router.push('/')
       }
     }, (err) => {

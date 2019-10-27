@@ -2,7 +2,7 @@
   <v-row class="fill-height">
     <v-col :cols="3" class="d-flex flex-column">
       <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
-      <UsersList :users="users"/>
+      <UsersList :users="filter !== '' ? users : this.$store.getters.getFriends"/>
     </v-col>
     <v-col :cols="9">
       <MessagesList />
@@ -29,7 +29,7 @@ export default {
       } else {
         this.$store.dispatch('searchUsers', val).then((data) => {
           if (data.error === undefined) {
-            this.users = data
+            this.users = data.filter((user) => this.$store.getters.getUser.id !== user.id)
           } else {
             this.users = []
           }
