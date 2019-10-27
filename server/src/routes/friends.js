@@ -38,9 +38,45 @@ export default (api, router, db) => {
         return
       }
 
-      db.friends.add(req.body.id, function (err) {
+      if (req.session.userid === req.body.id) {
+        res.json({ error: 'cant_add' })
+        return
+      }
+
+      db.friends.add(req.session.userid, req.body.id, function (err) {
         if (err) {
           res.json({ error: 'cant_add' })
+          return console.log(err.message)
+        }
+
+        res.json({})
+      })
+      return
+    }
+    res.json({ error: 'not_logged' })
+  })
+
+  // Remove a user from the friends list (POST)
+  router.route(api + 'friends').delete((req, res) => {
+    if (req.session.userid) {
+      if (req.body === undefined || req.body.id === undefined) {
+        res.json({ error: 'missing_parameters' })
+        return
+      }
+
+      if (req.body.id <= 0) {
+        res.json({ error: 'invalid_id' })
+        return
+      }
+
+      if (req.session.userid === req.body.id) {
+        res.json({ error: 'cant_remove' })
+        return
+      }
+
+      db.friends.remove(req.session.userid, req.body.id, function (err) {
+        if (err) {
+          res.json({ error: 'cant_remove' })
           return console.log(err.message)
         }
 
