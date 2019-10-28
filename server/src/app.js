@@ -11,8 +11,7 @@ import loadFriendsRoute from './routes/friends'
 import loadUsersRoute from './routes/users'
 import loadMessagesRoute from './routes/messages'
 
-var hostname = 'localhost'
-var port = 80
+var port = process.env.PORT || 80
 var api = '/api/'
 
 const app = express()
@@ -42,6 +41,6 @@ loadMessagesRoute(api, router, db)
 app.use(router)
 app.use(express.static('./static'))
 
-app.listen(port, hostname, function () {
-  console.log('Server Start: ' + hostname + ':' + port + '\n')
+app.listen(port, function () {
+  console.log('Server Start on port: ' + port + '\n')
 })
