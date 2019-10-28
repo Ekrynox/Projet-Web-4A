@@ -4,7 +4,7 @@
       <v-list-item-group v-model="user" color="primary">
         <v-list-item v-for="(user, i) in users" :key="i" :value="user">
           <v-list-item-content>
-            <v-list-item-title v-text="user.pseudo" />
+            <v-list-item-title v-html="user.pseudo" />
           </v-list-item-content>
 
           <v-list-item-icon v-if="!$store.getters.isFriend(user.id) && $store.getters.getUser.id !== user.id">
@@ -43,10 +43,22 @@ export default {
   },
   watch: {
     users: function (val) {
-      this.user = undefined
+      if (this.user === undefined) {
+        return
+      }
+      this.user = val.find((user) => user.id === this.user.id)
     },
-    user: function (val) {
-      this.$emit('change', val)
+    user: function (val, oldVal) {
+      if (val === undefined && oldVal === undefined) {
+        return
+      }
+      if (val === undefined ^ oldVal === undefined) {
+        this.$emit('change', val)
+        return
+      }
+      if (val.id !== oldVal.id) {
+        this.$emit('change', val)
+      }
     }
   }
 }
