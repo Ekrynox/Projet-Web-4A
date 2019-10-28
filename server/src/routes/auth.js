@@ -12,9 +12,14 @@ export default (api, router, db) => {
     }
 
     db.users.login(req.body.email, req.body.password, function (err, row) {
-      if (err || row === undefined) {
+      if (err) {
         res.json({ error: 'cant_login' })
         return console.log(err.message)
+      }
+
+      if (row === undefined) {
+        res.json({ error: 'cant_login' })
+        return
       }
 
       delete row.password
