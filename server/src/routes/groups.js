@@ -32,6 +32,37 @@ export default (api, router, db) => {
     res.json({ error: 'not_logged' })
   })
 
+  // Get user's groups' info (GET)
+  router.route(api + 'groups').get((req, res) => {
+    if (req.session.userid) {
+      if (req.session.groups.length <= 0) {
+        res.json([])
+      }
+
+      let groupslist = '(0'
+      req.session.groups.forEach(id => {
+        groupslist += ', ' + id
+      })
+      groupslist += ')'
+
+      db.groups.getGroups(groupslist, function (err, rows) {
+        if (err) {
+          res.json({ error: 'cant_get' })
+          return console.log(err.message)
+        }
+
+        if (rows === undefined) {
+          res.json([])
+          return
+        }
+
+        res.json(rows)
+      })
+      return
+    }
+    res.json({ error: 'not_logged' })
+  })
+
   // Add a group (POST)
   router.route(api + 'groups').post((req, res) => {
     if (req.session.userid) {

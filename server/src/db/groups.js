@@ -11,6 +11,10 @@ export default class {
     this.db.get('SELECT * FROM groups WHERE id=?', [id], callback)
   }
 
+  getGroups (groupsid, callback) {
+    this.db.all('SELECT * FROM groups WHERE id IN ' + groupsid, [], callback)
+  }
+
   remove (id, callback) {
     this.db.run('DELETE FROM groups WHERE id=?', [id], callback)
   }
