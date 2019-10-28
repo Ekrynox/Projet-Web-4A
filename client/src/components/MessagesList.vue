@@ -43,7 +43,7 @@ export default {
       if (this.user === undefined || this.user.id === undefined) {
         return
       }
-      this.$store.dispatch('addMessage', { id: this.user.id, data: JSON.stringify({ text: this.message }) }).then((data) => {
+      this.$store.dispatch('addMessage', { id: this.user.id, data: { text: this.message } }).then((data) => {
         this.message = ''
         this.update(this.user.id)
       })
@@ -52,7 +52,6 @@ export default {
       this.$store.dispatch('getMessages', id).then((data) => {
         if (data.error === undefined) {
           this.messages = data
-          this.messages.forEach((message) => { message.data = JSON.parse(message.data) })
           return
         }
         this.messages = []

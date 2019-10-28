@@ -28,7 +28,7 @@ export default (api, router, db) => {
   // Search for users from which the pseudo start by the filter
   router.route(api + 'users/search/:filter').get((req, res) => {
     if (req.session.userid) {
-      db.users.search(req.params.filter, function (err, rows) {
+      db.users.search(htmlspecialchars(req.params.filter), function (err, rows) {
         if (err) {
           res.json({ error: 'db_error' })
           return console.log(err.message)

@@ -1,3 +1,5 @@
+import htmlspecialchars from 'htmlspecialchars'
+
 export default (api, router, db) => {
   // Get user's Messages to another user (GET)
   router.route(api + 'messages/:id').get((req, res) => {
@@ -17,6 +19,9 @@ export default (api, router, db) => {
           res.json([])
           return
         }
+
+        rows.forEach((message) => { message.data = JSON.parse(message.data) })
+
         res.json(rows)
       })
       return
@@ -42,7 +47,13 @@ export default (api, router, db) => {
         return
       }
 
-      db.messages.add(req.session.userid, req.body.id, req.body.data, function (err) {
+      let data = req.body.data
+      if (data.text !== undefined) {
+        data.text = htmlspecialchars(data.text)
+      }
+      data = JSON.stringify(data)
+
+      db.messages.add(req.session.userid, req.body.id, data, function (err) {
         if (err) {
           res.json({ error: 'cant_add' })
           return console.log(err.message)
