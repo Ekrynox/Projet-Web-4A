@@ -11,7 +11,7 @@ export default (api, router, db) => {
 
       db.messages.get(req.session.userid, req.params.id, function (err, rows) {
         if (err) {
-          res.json({ error: 'db_error' })
+          res.json({ error: 'cant_get' })
           return console.log(err.message)
         }
 

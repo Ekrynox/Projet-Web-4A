@@ -4,7 +4,7 @@ export default (api, router, db) => {
     if (req.session.userid) {
       db.friends.get(req.session.userid, function (err, rows) {
         if (err) {
-          res.json({ error: 'db_error' })
+          res.json({ error: 'cant_get' })
           return console.log(err.message)
         }
 

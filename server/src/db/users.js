@@ -22,4 +22,8 @@ export default class {
   search (filter, callback) {
     this.db.all('SELECT * FROM users WHERE pseudo IN (SELECT pseudo FROM users_pseudo WHERE pseudo MATCH ?)', [filter + '*'], callback)
   }
+
+  updateGroups (id, groups, callback) {
+    this.db.run('UPDATE users SET groups=? WHERE id=?', [groups, id], callback)
+  }
 }

@@ -6,14 +6,18 @@ export default (api, router, db) => {
     if (req.session.userid) {
       db.users.get(req.session.userid, function (err, row) {
         if (err) {
-          res.json({ error: 'db_error' })
+          res.json({ error: 'cant_get' })
           delete req.session.userid
+          delete req.session.pseudo
+          delete req.session.groups
           return console.log(err.message)
         }
 
         if (row === undefined) {
           res.json({ error: 'user_not_found' })
           delete req.session.userid
+          delete req.session.pseudo
+          delete req.session.groups
           return
         }
 
@@ -30,7 +34,7 @@ export default (api, router, db) => {
     if (req.session.userid) {
       db.users.search(htmlspecialchars(req.params.filter), function (err, rows) {
         if (err) {
-          res.json({ error: 'db_error' })
+          res.json({ error: 'cant_get' })
           return console.log(err.message)
         }
 
@@ -60,7 +64,7 @@ export default (api, router, db) => {
 
     db.users.get(req.params.id, function (err, row) {
       if (err) {
-        res.json({ error: 'db_error' })
+        res.json({ error: 'cant_get' })
         return console.log(err.message)
       }
 
@@ -105,7 +109,7 @@ export default (api, router, db) => {
 
     db.users.add(req.body.email, req.body.password, htmlspecialchars(req.body.pseudo), function (err) {
       if (err) {
-        res.json({ error: 'cant_create' })
+        res.json({ error: 'cant_add' })
         return console.log(err.message)
       }
 

@@ -12,18 +12,15 @@ export default (api, router, db) => {
     }
 
     db.users.login(req.body.email, req.body.password, function (err, row) {
-      if (err) {
-        res.json({ error: 'db_error' })
-        return console.log(err.message)
-      }
-
-      if (row === undefined) {
+      if (err || row === undefined) {
         res.json({ error: 'cant_login' })
-        return
+        return console.log(err.message)
       }
 
       delete row.password
       req.session.userid = row.id
+      req.session.pseudo = row.pseudo
+      req.session.groups = JSON.parse(row.groups)
       res.json(row)
     })
   })
@@ -36,6 +33,8 @@ export default (api, router, db) => {
     }
 
     delete req.session.userid
+    delete req.session.pseudo
+    delete req.session.groups
     res.json({})
   })
 }
