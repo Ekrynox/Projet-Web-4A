@@ -20,16 +20,22 @@ export default {
   data: function () {
     return {
       messages: [],
-      message: ''
+      message: '',
+      messagesInterval: undefined
     }
   },
   watch: {
     user: function (val) {
+      if (this.messagesInterval !== undefined) {
+        clearInterval(this.messagesInterval)
+        this.messagesInterval = undefined
+      }
       if (val === undefined || val.id === undefined) {
         this.messages = []
         return
       }
       this.update(val.id)
+      this.messagesInterval = setInterval(() => { this.update(val.id) }, 10000)
     }
   },
   methods: {

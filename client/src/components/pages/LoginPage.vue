@@ -42,12 +42,6 @@ export default {
       if (!this.$v.$invalid) {
         this.loading = true
         this.$store.dispatch('login', { email: this.email, password: this.password }).then((data) => {
-          if (data.error === undefined || data.error === 'already_logged') {
-            if (this.$store.getters.isLogged) {
-              this.$store.dispatch('getFriends')
-              this.$router.replace('/')
-            }
-          }
           this.loading = false
         }, (err) => {
           console.log(err)

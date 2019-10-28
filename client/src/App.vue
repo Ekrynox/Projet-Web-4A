@@ -6,7 +6,7 @@
       </v-container>
     </v-content>
 
-    <v-bottom-navigation v-if="$store.getters.isLogged" v-model="bottomNav" grow color="primary">
+    <v-bottom-navigation v-if="logged" grow color="primary">
       <v-btn value="msg" to="msg">
         <span>Discutions</span>
         <v-icon>mdi-android-messages</v-icon>
@@ -26,25 +26,49 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data: function () {
     return {
-      bottomNav: 'msg'
+      friendsInterval: undefined
     }
   },
   mounted: function () {
-    // If not logged then go to the login page
     this.$store.dispatch('getUser').then((data) => {
-      if (!this.$store.getters.isLogged) {
-        this.$router.push('/login')
-      } else {
-        this.$store.dispatch('getFriends')
-        this.$router.push('/')
-      }
+      this.changeRoute(this.logged)
     }, (err) => {
       console.log(err)
       this.$router.push('/login')
     })
+  },
+  computed: {
+    ...mapGetters({
+      logged: 'isLogged'
+    })
+  },
+  watch: {
+    logged: function (val) {
+      this.changeRoute(val)
+    }
+  },
+  methods: {
+    // If not logged then go to the login page
+    changeRoute: function (isLogged) {
+      if (isLogged === true) {
+        this.$store.dispatch('getFriends')
+        this.friendsInterval = setInterval(() => { this.$store.dispatch('getFriends') }, 300000)
+
+        this.$router.replace('/')
+      } else {
+        if (this.friendsInterval !== undefined) {
+          clearInterval(this.friendsInterval)
+          this.friendsInterval = undefined
+        }
+
+        this.$router.push('/login')
+      }
+    }
   }
 }
 </script>

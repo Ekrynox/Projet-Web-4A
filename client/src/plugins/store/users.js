@@ -2,13 +2,10 @@ import axios from 'axios'
 
 export default {
   state: {
-    logged: false,
     user: null
   },
   getters: {
-    isLogged (state) {
-      return state.logged
-    },
+    isLogged: (state) => state.user !== null,
     getUser: (state) => state.user
   },
   mutations: {
@@ -27,10 +24,8 @@ export default {
           })
             .then((response) => {
               if (response.data.error === undefined) {
-                store.commit('setLogged', true)
                 store.commit('setUser', response.data)
               } else {
-                store.commit('setLogged', false)
                 store.commit('setUser', null)
               }
               resolve(response.data)
@@ -109,7 +104,6 @@ export default {
         })
           .then((response) => {
             if (response.data.error === undefined) {
-              store.commit('setLogged', true)
               store.commit('setUser', response.data)
             }
             resolve(response.data)
@@ -128,7 +122,6 @@ export default {
           withCredentials: true
         })
           .then((response) => {
-            store.commit('setLogged', false)
             store.commit('setUser', null)
             resolve(response.data)
           })
