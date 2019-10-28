@@ -29,7 +29,7 @@ export default (api, router, db) => {
     res.json({ error: 'not_logged' })
   })
 
-  // Search for users from which the pseudo start by the filter
+  // Search for users from which the pseudo start by the filter (GET)
   router.route(api + 'users/search/:filter').get((req, res) => {
     if (req.session.userid) {
       db.users.search(htmlspecialchars(req.params.filter), function (err, rows) {
@@ -55,7 +55,7 @@ export default (api, router, db) => {
     res.json({ error: 'not_logged' })
   })
 
-  // retrieve an user with his id
+  // retrieve an user with his id (GET)
   router.route(api + 'users/:id').get((req, res) => {
     if (req.params.id > 0) {
       res.json({ error: 'invalid_id' })

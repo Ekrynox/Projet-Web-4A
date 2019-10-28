@@ -29,7 +29,7 @@ export default (api, router, db) => {
     res.json({ error: 'not_logged' })
   })
 
-  // Add a user to the friends list (POST)
+  // Send a message to someone (POST)
   router.route(api + 'messages').post((req, res) => {
     if (req.session.userid) {
       if (req.body === undefined || req.body.id === undefined || req.body.data === undefined) {
