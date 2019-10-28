@@ -1,5 +1,5 @@
 <template>
-  <v-row align="center" justify="center">
+  <v-row class="fill-height" align="center" justify="center">
     <v-card :loading="loading" raised>
       <form ref="form">
         <v-col :cols="12">

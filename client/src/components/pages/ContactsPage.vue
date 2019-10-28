@@ -1,5 +1,5 @@
 <template>
-  <v-row class="fill-height">
+  <v-row class="ml-1 mr-1 fill-height">
     <v-col :cols="3" class="d-flex flex-column">
       <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
       <UsersList :users="filter !== '' ? users : $store.getters.getFriends" v-model="selectedUser"/>

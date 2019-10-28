@@ -1,8 +1,8 @@
 <template>
-  <div :class="message.user1 === $store.getters.getUser.id && 'ml-auto'">
-    <v-chip class="mb-1" :color="message.user1 === $store.getters.getUser.id ? 'primary' : ''">
-      {{ message.data.text }}
-    </v-chip>
+  <div class='d-flex'>
+    <v-card max-width="60%" :class="'mb-1' + (message.user1 === $store.getters.getUser.id ? ' ml-auto' : '')" :color="message.user1 === $store.getters.getUser.id ? 'primary' : ''">
+      <v-card-text :class="message.user1 === $store.getters.getUser.id ? 'white--text' : 'black--text'" v-html="message.data.text"></v-card-text>
+    </v-card>
   </div>
 </template>
 
