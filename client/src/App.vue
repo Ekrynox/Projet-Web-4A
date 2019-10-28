@@ -31,7 +31,8 @@ import { mapGetters } from 'vuex'
 export default {
   data: function () {
     return {
-      friendsInterval: undefined
+      friendsInterval: undefined,
+      loggedInterval: undefined
     }
   },
   mounted: function () {
@@ -55,17 +56,23 @@ export default {
   methods: {
     // If not logged then go to the login page
     changeRoute: function (isLogged) {
+      if (this.friendsInterval !== undefined) {
+        clearInterval(this.friendsInterval)
+        this.friendsInterval = undefined
+      }
+      if (this.loggedInterval !== undefined) {
+        clearInterval(this.loggedInterval)
+        this.loggedInterval = undefined
+      }
+
       if (isLogged === true) {
         this.$store.dispatch('getFriends')
         this.friendsInterval = setInterval(() => { this.$store.dispatch('getFriends') }, 300000)
 
+        this.loggedInterval = setInterval(() => { this.$store.dispatch('getUser') }, 300000)
+
         this.$router.replace('/')
       } else {
-        if (this.friendsInterval !== undefined) {
-          clearInterval(this.friendsInterval)
-          this.friendsInterval = undefined
-        }
-
         this.$router.push('/login')
       }
     }
