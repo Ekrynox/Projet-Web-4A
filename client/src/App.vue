@@ -6,7 +6,7 @@
 
     <v-bottom-navigation v-if="logged" grow color="primary">
       <v-btn value="msg" to="msg">
-        <span>Discutions</span>
+        <span>Discussions</span>
         <v-icon>mdi-android-messages</v-icon>
       </v-btn>
 

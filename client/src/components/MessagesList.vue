@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4 fill-height d-flex flex-column" tile>
+  <v-card fixed class="pa-4 fill-height d-flex flex-column overflow-y-auto" tile>
     <v-sheet class="fill-height d-flex flex-column">
       <Message v-for="(message, i) in messages" :key="i" :message="message"/>
     </v-sheet>

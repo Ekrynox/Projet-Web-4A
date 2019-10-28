@@ -1,13 +1,17 @@
 <template>
-  <v-row class="ml-1 mr-1 fill-height">
-    <v-col :cols="3" class="d-flex flex-column">
-      <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
-      <UsersList :users="filter !== '' ? users : $store.getters.getFriends" v-model="selectedUser"/>
+  <v-container fill-height fluid>
+    <v-col class="pa-0 ma-0 fill-height">
+      <v-row class="fill-height">
+        <v-col :cols="3" class="d-flex flex-column">
+          <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
+          <UsersList :users="filter !== '' ? users : $store.getters.getFriends" v-model="selectedUser"/>
+        </v-col>
+        <v-col :cols="9">
+          <MessagesList :user="selectedUser"/>
+        </v-col>
+      </v-row>
     </v-col>
-    <v-col :cols="9">
-      <MessagesList :user="selectedUser"/>
-    </v-col>
-  </v-row>
+  </v-container>
 </template>
 
 <script>

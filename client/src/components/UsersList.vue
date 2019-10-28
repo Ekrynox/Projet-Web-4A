@@ -1,5 +1,5 @@
 <template>
-  <v-card class="fill-height" tile>
+  <v-card height="100%" max-height="100%" tile>
     <v-list>
       <v-list-item-group v-model="user" color="primary">
         <v-list-item v-for="(user, i) in users" :key="i" :value="user">
