@@ -62,6 +62,9 @@ export default {
           withCredentials: true
         })
           .then((response) => {
+            if (response.data.error === 'not_logged') {
+              store.commit('setUser', null)
+            }
             resolve(response.data)
           })
           .catch((error) => {
@@ -83,6 +86,9 @@ export default {
           withCredentials: true
         })
           .then((response) => {
+            if (response.data.error === 'already_logged') {
+              store.dispatch('getUser')
+            }
             resolve(response.data)
           })
           .catch((error) => {
@@ -105,6 +111,10 @@ export default {
           .then((response) => {
             if (response.data.error === undefined) {
               store.commit('setUser', response.data)
+            } else if (response.data.error === 'already_logged') {
+              store.dispatch('getUser')
+            } else {
+              store.commit('setUser', null)
             }
             resolve(response.data)
           })

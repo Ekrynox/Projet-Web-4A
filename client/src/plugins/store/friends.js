@@ -23,6 +23,9 @@ export default {
           .then((response) => {
             if (response.data.error === undefined) {
               store.commit('setFriends', response.data)
+            } else if (response.data.error === 'not_logged') {
+              store.commit('setFriends', [])
+              store.commit('setUser', null)
             } else {
               store.commit('setFriends', [])
             }
@@ -48,6 +51,8 @@ export default {
           .then((response) => {
             if (response.data.error === undefined) {
               store.dispatch('getFriends')
+            } else if (response.data.error === 'not_logged') {
+              store.commit('setUser', null)
             }
             resolve(response.data)
           })
@@ -67,6 +72,8 @@ export default {
           .then((response) => {
             if (response.data.error === undefined) {
               store.dispatch('getFriends')
+            } else if (response.data.error === 'not_logged') {
+              store.commit('setUser', null)
             }
             resolve(response.data)
           })

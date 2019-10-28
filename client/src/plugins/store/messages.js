@@ -11,6 +11,9 @@ export default {
           withCredentials: true
         })
           .then((response) => {
+            if (response.data.error === 'not_logged') {
+              store.commit('setUser', null)
+            }
             resolve(response.data)
           })
           .catch((error) => {
@@ -31,6 +34,9 @@ export default {
           withCredentials: true
         })
           .then((response) => {
+            if (response.data.error === 'not_logged') {
+              store.commit('setUser', null)
+            }
             resolve(response.data)
           })
           .catch((error) => {
