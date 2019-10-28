@@ -2,7 +2,7 @@
   <v-row class="fill-height">
     <v-col :cols="3" class="d-flex flex-column">
       <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
-      <UsersList :users="filter !== '' ? users : this.$store.getters.getFriends" v-model="selectedUser"/>
+      <UsersList :users="filter !== '' ? users : $store.getters.getFriends" v-model="selectedUser"/>
     </v-col>
     <v-col :cols="9">
       <MessagesList :user="selectedUser"/>

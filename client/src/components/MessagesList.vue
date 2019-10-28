@@ -3,7 +3,7 @@
     <v-sheet class="fill-height d-flex flex-column">
       <Message v-for="(message, i) in messages" :key="i" :message="message"/>
     </v-sheet>
-    <v-text-field v-model="message" label="Message" @keyup.enter="sendMessage"/>
+    <v-text-field :disabled="user === undefined" v-model="message" label="Message" @keyup.enter="sendMessage"/>
   </v-card>
 </template>
 
