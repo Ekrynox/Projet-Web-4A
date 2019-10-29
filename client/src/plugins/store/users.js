@@ -134,7 +134,7 @@ export default {
         !store.getters.isLogged && resolve({ error: 'not_logged' })
 
         axios({
-          method: 'post',
+          method: 'get',
           url: store.getters.getApi + 'auth/logout?timestamp=' + new Date().getTime(),
           responseType: 'json',
           withCredentials: true

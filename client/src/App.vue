@@ -3,6 +3,7 @@
     <v-content>
         <v-container fill-height fluid>
           <router-view />
+          <SettingsDialog v-model="settings"/>
         </v-container>
     </v-content>
 
@@ -17,7 +18,7 @@
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
 
-      <v-btn value="settings" to="settings">
+      <v-btn :value="settings" @click="settings = !settings">
         <span>Settings</span>
         <v-icon>mdi-settings</v-icon>
       </v-btn>
@@ -27,13 +28,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import SettingsDialog from './components/SettingsDialog'
 
 export default {
+  components: {
+    SettingsDialog
+  },
   data: function () {
     return {
       friendsInterval: undefined,
       groupsInterval: undefined,
-      loggedInterval: undefined
+      loggedInterval: undefined,
+      settings: false
     }
   },
   mounted: function () {
@@ -55,6 +61,7 @@ export default {
       if (!val) {
         this.$store.commit('setGroups', [])
         this.$store.commit('setFriends', [])
+        this.settings = false
       }
     }
   },
