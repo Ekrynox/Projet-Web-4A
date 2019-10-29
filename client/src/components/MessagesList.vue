@@ -2,7 +2,7 @@
   <v-card fixed class="pa-4 fill-height d-flex flex-column overflow-y-auto" tile>
     <v-sheet class="fill-height d-flex flex-column">
       <template v-for="(messages, i) in sortedMessages">
-        <v-subheader :class="isTheUser(messages[0].user) ? ' ml-auto' : ''" v-html="isTheUser(messages[0].user) ? $store.getters.getUser.pseudo : (isAUser ? userOrGroup.pseudo : '')" :key="'sub-' + i"/>
+        <v-subheader :class="isTheUser(messages[0].user) ? ' ml-auto' : ''" v-html="getPseudo(messages[0].user)" :key="'sub-' + i"/>
         <Message v-for="message in messages" :key="message.id" :message="message.data" :isTheUser="isTheUser(message.user)"/>
       </template>
     </v-sheet>
@@ -69,6 +69,19 @@ export default {
   },
   methods: {
     isTheUser: function (id) { return this.$store.getters.getUser.id === id },
+    getPseudo: function (id) {
+      if (this.isTheUser(id)) {
+        return this.$store.getters.getUser.pseudo
+      }
+      if (this.isAUser) {
+        return this.userOrGroup.pseudo
+      }
+      const user = this.userOrGroup.users.find(user => user.id === id)
+      if (user !== undefined) {
+        return user.pseudo
+      }
+      return ''
+    },
     sendMessage: function () {
       if (this.userOrGroup === undefined) {
         return
