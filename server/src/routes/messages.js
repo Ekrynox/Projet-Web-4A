@@ -42,11 +42,6 @@ export default (api, router, db) => {
         return
       }
 
-      if (req.session.userid === req.body.id) {
-        res.json({ error: 'cant_add' })
-        return
-      }
-
       let data = req.body.data
       if (data.text !== undefined) {
         data.text = htmlspecialchars(data.text)
