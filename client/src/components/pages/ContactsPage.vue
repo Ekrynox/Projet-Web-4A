@@ -3,7 +3,7 @@
     <v-row class="fill-height">
       <v-col :cols="3" class="d-flex flex-column">
         <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
-        <UsersGroupsList :items="filtered ? users : $store.getters.getFriends" v-model="selectedUser"/>
+        <UsersGroupsList :items="getUsers" v-model="selectedUser"/>
       </v-col>
       <v-col :cols="9">
         <MessagesList :user="selectedUser"/>
@@ -26,6 +26,11 @@ export default {
       selectedUser: undefined
     }
   },
+  computed: {
+    getUsers: function () {
+      return (this.filtered ? this.users : Array.from(this.$store.getters.getFriends)).sort((a, b) => a.pseudo.localeCompare(b.pseudo))
+    }
+  },
   watch: {
     filter: function (val) {
       if (val === '') {
@@ -34,7 +39,7 @@ export default {
       } else {
         this.$store.dispatch('searchUsers', val).then((data) => {
           if (data.error === undefined) {
-            this.users = data.filter((user) => this.$store.getters.getUser.id !== user.id)
+            this.users = data
             this.filtered = true
           } else {
             this.users = []
