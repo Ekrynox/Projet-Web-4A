@@ -3,7 +3,7 @@
     <v-row class="fill-height">
       <v-col :cols="3" class="d-flex flex-column">
         <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
-        <UsersList :users="filtered ? users : $store.getters.getFriends" v-model="selectedUser"/>
+        <UsersGroupsList :items="filtered ? users : $store.getters.getFriends" v-model="selectedUser"/>
       </v-col>
       <v-col :cols="9">
         <MessagesList :user="selectedUser"/>
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import UsersList from '../UsersList'
+import UsersGroupsList from '../UsersGroupsList'
 import MessagesList from '../MessagesList'
 
 export default {
-  components: { UsersList, MessagesList },
+  components: { UsersGroupsList, MessagesList },
   data: function () {
     return {
       filter: '',
