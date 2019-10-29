@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <v-content>
-        <router-view />
+        <v-container fill-height fluid>
+          <router-view />
+        </v-container>
     </v-content>
 
     <v-bottom-navigation v-if="logged" grow color="primary">

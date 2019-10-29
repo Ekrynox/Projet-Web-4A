@@ -1,20 +1,18 @@
 <template>
-  <v-row class="fill-height" align="center" justify="center">
-    <v-card :loading="loading" raised>
-      <form ref="form">
-        <v-col :cols="12">
-          <v-text-field v-model="email" prepend-icon="mdi-at" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" required/>
-        </v-col>
-        <v-col :cols="12">
-          <v-text-field v-model="password" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" required/>
-        </v-col>
-        <v-col :cols="12" >
-          <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/register')" dark>Create an Account</v-btn>
-          <v-btn class="ma-2" tile color="primary" @click="submit">Login</v-btn>
-        </v-col>
-      </form>
-    </v-card>
-  </v-row>
+  <v-card :loading="loading" raised class="my-auto mx-auto">
+    <form ref="form">
+      <v-col :cols="12">
+        <v-text-field v-model="email" prepend-icon="mdi-at" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com" required/>
+      </v-col>
+      <v-col :cols="12">
+        <v-text-field v-model="password" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password" required/>
+      </v-col>
+      <v-col :cols="12" >
+        <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/register')" dark>Create an Account</v-btn>
+        <v-btn class="ma-2" tile color="primary" @click="submit">Login</v-btn>
+      </v-col>
+    </form>
+  </v-card>
 </template>
 
 <script>

@@ -1,26 +1,24 @@
 <template>
-  <v-row class="fill-height" align="center" justify="center">
-    <v-card :loading="loading" raised>
-      <form ref="form">
-        <v-col :cols="12">
-          <v-text-field v-model="email" prepend-icon="mdi-at" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com"/>
-        </v-col>
-        <v-col :cols="12">
-          <v-text-field v-model="pseudo" prepend-icon="mdi-account" @keyup.enter="submit" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo"/>
-        </v-col>
-        <v-col :cols="12">
-          <v-text-field v-model="password" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password"/>
-        </v-col>
-        <v-col :cols="12">
-          <v-text-field v-model="passwordbis" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.passwordbis.$touch()" @blur="$v.passwordbis.$touch()" :error-messages="passwordBisErrors" type="password" label="Password Confirmation"/>
-        </v-col>
-        <v-col :cols="12" >
-          <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/login')" dark>Already have an Account</v-btn>
-          <v-btn class="ma-2" tile color="primary" @click="submit">Register</v-btn>
-        </v-col>
-      </form>
-    </v-card>
-  </v-row>
+  <v-card :loading="loading" raised class="my-auto mx-auto">
+    <form ref="form">
+      <v-col :cols="12">
+        <v-text-field v-model="email" prepend-icon="mdi-at" @keyup.enter="submit" @change="$v.email.$touch()" @blur="$v.email.$touch()" :error-messages="emailErrors" label="Email" placeholder="xyz@example.com"/>
+      </v-col>
+      <v-col :cols="12">
+        <v-text-field v-model="pseudo" prepend-icon="mdi-account" @keyup.enter="submit" @change="$v.pseudo.$touch()" @blur="$v.pseudo.$touch()" :error-messages="pseudoErrors" label="Pseudo"/>
+      </v-col>
+      <v-col :cols="12">
+        <v-text-field v-model="password" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.password.$touch()" @blur="$v.password.$touch()" :error-messages="passwordErrors" type="password" label="Password"/>
+      </v-col>
+      <v-col :cols="12">
+        <v-text-field v-model="passwordbis" prepend-icon="mdi-lock" @keyup.enter="submit" @change="$v.passwordbis.$touch()" @blur="$v.passwordbis.$touch()" :error-messages="passwordBisErrors" type="password" label="Password Confirmation"/>
+      </v-col>
+      <v-col :cols="12" >
+        <v-btn class="ma-2" tile outlined color="primary" @click="$router.replace('/login')" dark>Already have an Account</v-btn>
+        <v-btn class="ma-2" tile color="primary" @click="submit">Register</v-btn>
+      </v-col>
+    </form>
+  </v-card>
 </template>
 
 <script>
