@@ -19,6 +19,10 @@ export default class {
     this.db.get('SELECT * FROM users WHERE id=?', [id], callback)
   }
 
+  getList (idlist, callback) {
+    this.db.all('SELECT * FROM users WHERE id IN ' + idlist, [], callback)
+  }
+
   search (filter, callback) {
     this.db.all('SELECT * FROM users WHERE pseudo IN (SELECT pseudo FROM users_pseudo WHERE pseudo MATCH ?)', [filter + '*'], callback)
   }

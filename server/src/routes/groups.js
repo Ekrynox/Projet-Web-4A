@@ -25,7 +25,40 @@ export default (api, router, db) => {
           return
         }
 
-        res.json(row)
+        let userslist = '(0'
+        row.users = JSON.parse(row.users)
+        row.users.forEach(id => {
+          userslist += ', ' + id
+        })
+        userslist += ')'
+
+        db.users.getList(userslist, function (err, users) {
+          if (err) {
+            row.users = []
+            res.json(row)
+            return console.log(err.message)
+          }
+
+          if (users === undefined) {
+            row.users = []
+            res.json(row)
+            return
+          }
+
+          const usersList = []
+          row.users.forEach(id => {
+            const user = users.find(user => user.id === id)
+            if (user !== undefined) {
+              delete user.email
+              delete user.password
+              delete user.groups
+              usersList.push(user)
+            }
+          })
+          row.users = usersList
+
+          res.json(row)
+        })
       })
       return
     }
@@ -56,7 +89,48 @@ export default (api, router, db) => {
           return
         }
 
-        res.json(rows)
+        let userslist = '(0'
+        rows.forEach(row => {
+          row.users = JSON.parse(row.users)
+          row.users.forEach(id => {
+            userslist += ', ' + id
+          })
+        })
+        userslist += ')'
+
+        db.users.getList(userslist, function (err, users) {
+          if (err) {
+            rows.forEach(row => {
+              row.users = []
+            })
+            res.json(rows)
+            return console.log(err.message)
+          }
+
+          if (users === undefined) {
+            rows.forEach(row => {
+              row.users = []
+            })
+            res.json(rows)
+            return
+          }
+
+          rows.forEach(row => {
+            const usersList = []
+            row.users.forEach(id => {
+              const user = users.find(user => user.id === id)
+              if (user !== undefined) {
+                delete user.email
+                delete user.password
+                delete user.groups
+                usersList.push(user)
+              }
+            })
+            row.users = usersList
+          })
+
+          res.json(rows)
+        })
       })
       return
     }
