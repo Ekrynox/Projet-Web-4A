@@ -6,7 +6,7 @@
         <UsersGroupsList :items="getUsers" v-model="selectedUser"/>
       </v-col>
       <v-col :cols="9">
-        <MessagesList :user="selectedUser"/>
+        <MessagesList :userOrGroup="selectedUser"/>
       </v-col>
     </v-row>
   </v-col>
