@@ -32,6 +32,7 @@ export default {
   data: function () {
     return {
       friendsInterval: undefined,
+      groupsInterval: undefined,
       loggedInterval: undefined
     }
   },
@@ -64,6 +65,10 @@ export default {
         clearInterval(this.friendsInterval)
         this.friendsInterval = undefined
       }
+      if (this.groupsInterval !== undefined) {
+        clearInterval(this.groupsInterval)
+        this.groupsInterval = undefined
+      }
       if (this.loggedInterval !== undefined) {
         clearInterval(this.loggedInterval)
         this.loggedInterval = undefined
@@ -72,6 +77,9 @@ export default {
       if (isLogged === true) {
         this.$store.dispatch('getFriends')
         this.friendsInterval = setInterval(() => { this.$store.dispatch('getFriends') }, 300000)
+
+        this.$store.dispatch('getGroups')
+        this.groupsInterval = setInterval(() => { this.$store.dispatch('getGroups') }, 300000)
 
         this.loggedInterval = setInterval(() => { this.$store.dispatch('getUser') }, 300000)
 

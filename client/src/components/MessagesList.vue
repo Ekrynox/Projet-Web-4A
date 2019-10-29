@@ -78,6 +78,11 @@ export default {
           this.message = ''
           this.update(this.userOrGroup.id)
         })
+      } else {
+        this.$store.dispatch('addMessageGroups', { id: this.userOrGroup.id, data: { text: this.message } }).then((data) => {
+          this.message = ''
+          this.update(this.userOrGroup.id)
+        })
       }
     },
     update: function (id) {
@@ -92,7 +97,18 @@ export default {
           console.log(err)
           this.messages = []
         })
-      } else {}
+      } else {
+        this.$store.dispatch('getMessagesGroups', id).then((data) => {
+          if (data.error === undefined) {
+            this.messages = data
+            return
+          }
+          this.messages = []
+        }, (err) => {
+          console.log(err)
+          this.messages = []
+        })
+      }
     }
   }
 }

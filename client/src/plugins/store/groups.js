@@ -6,7 +6,7 @@ export default {
   },
   getters: {
     getGroups: (state) => state.groups,
-    inFriend: (state, getters) => (id) => getters.isLogged && state.user.include(id)
+    inGroup: (state, getters) => (id) => getters.isLogged && state.user.groups.include(id)
   },
   mutations: {
     setGroups: (state, groups) => { state.groups = groups },

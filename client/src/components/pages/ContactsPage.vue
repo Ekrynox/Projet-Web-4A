@@ -1,11 +1,11 @@
 <template>
   <v-col class="pa-0 ma-0 fill-height">
     <v-row class="fill-height">
-      <v-col :cols="3" class="d-flex flex-column">
+      <v-col :cols="2" class="d-flex flex-column">
         <v-text-field v-model="filter" prepend-inner-icon="mdi-magnify" label="Search..." solo />
         <UsersGroupsList :items="getUsers" v-model="selectedUser"/>
       </v-col>
-      <v-col :cols="9">
+      <v-col :cols="10">
         <MessagesList :userOrGroup="selectedUser"/>
       </v-col>
     </v-row>
