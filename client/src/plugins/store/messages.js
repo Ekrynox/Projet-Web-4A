@@ -4,6 +4,8 @@ export default {
   actions: {
     getMessages (store, id) {
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'get',
           url: store.getters.getApi + 'messages/' + id + '?timestamp=' + new Date().getTime(),
@@ -12,7 +14,7 @@ export default {
         })
           .then((response) => {
             if (response.data.error === 'not_logged') {
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             }
             resolve(response.data)
           })
@@ -23,6 +25,8 @@ export default {
     },
     addMessage (store, { id, data }) {
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'post',
           url: store.getters.getApi + 'messages?timestamp=' + new Date().getTime(),
@@ -35,7 +39,7 @@ export default {
         })
           .then((response) => {
             if (response.data.error === 'not_logged') {
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             }
             resolve(response.data)
           })

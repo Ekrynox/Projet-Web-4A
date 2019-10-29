@@ -51,6 +51,10 @@ export default {
   watch: {
     logged: function (val) {
       this.changeRoute(val)
+      if (!val) {
+        this.$store.commit('setGroups', [])
+        this.$store.commit('setFriends', [])
+      }
     }
   },
   methods: {

@@ -14,6 +14,8 @@ export default {
   actions: {
     getFriends (store) {
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'get',
           url: store.getters.getApi + 'friends?timestamp=' + new Date().getTime(),
@@ -24,21 +26,21 @@ export default {
             if (response.data.error === undefined) {
               store.commit('setFriends', response.data)
             } else if (response.data.error === 'not_logged') {
-              store.commit('setFriends', [])
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             } else {
               store.commit('setFriends', [])
             }
             resolve(response.data)
           })
           .catch((error) => {
-            store.commit('setFriends', [])
             reject(error)
           })
       })
     },
     addFriend (store, id) {
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'post',
           url: store.getters.getApi + 'friends?timestamp=' + new Date().getTime(),
@@ -52,7 +54,7 @@ export default {
             if (response.data.error === undefined) {
               store.dispatch('getFriends')
             } else if (response.data.error === 'not_logged') {
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             }
             resolve(response.data)
           })
@@ -63,6 +65,8 @@ export default {
     },
     removeFriend (store, id) {
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'delete',
           url: store.getters.getApi + 'friends/' + id + '?timestamp=' + new Date().getTime(),
@@ -73,7 +77,7 @@ export default {
             if (response.data.error === undefined) {
               store.dispatch('getFriends')
             } else if (response.data.error === 'not_logged') {
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             }
             resolve(response.data)
           })

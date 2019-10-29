@@ -2,10 +2,10 @@ import axios from 'axios'
 
 export default {
   state: {
-    user: null
+    user: undefined
   },
   getters: {
-    isLogged: (state) => state.user !== null,
+    isLogged: (state) => state.user !== undefined,
     getUser: (state) => state.user
   },
   mutations: {
@@ -26,7 +26,7 @@ export default {
               if (response.data.error === undefined) {
                 store.commit('setUser', response.data)
               } else {
-                store.commit('setUser', null)
+                store.commit('setUser', undefined)
               }
               resolve(response.data)
             })
@@ -55,6 +55,8 @@ export default {
         filter = ''
       }
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'get',
           url: store.getters.getApi + 'users/search/' + filter + '?timestamp=' + new Date().getTime(),
@@ -63,7 +65,7 @@ export default {
         })
           .then((response) => {
             if (response.data.error === 'not_logged') {
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             }
             resolve(response.data)
           })
@@ -74,6 +76,8 @@ export default {
     },
     register (store, { email, pseudo, password }) {
       return new Promise(function (resolve, reject) {
+        store.getters.isLogged && resolve({ error: 'already_logged' })
+
         axios({
           method: 'post',
           url: store.getters.getApi + 'users?timestamp=' + new Date().getTime(),
@@ -98,6 +102,8 @@ export default {
     },
     login (store, { email, password }) {
       return new Promise(function (resolve, reject) {
+        store.getters.isLogged && resolve({ error: 'already_logged' })
+
         axios({
           method: 'post',
           url: store.getters.getApi + 'auth/login?timestamp=' + new Date().getTime(),
@@ -114,7 +120,7 @@ export default {
             } else if (response.data.error === 'already_logged') {
               store.dispatch('getUser')
             } else {
-              store.commit('setUser', null)
+              store.commit('setUser', undefined)
             }
             resolve(response.data)
           })
@@ -125,6 +131,8 @@ export default {
     },
     logout (store) {
       return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
         axios({
           method: 'post',
           url: store.getters.getApi + 'auth/logout?timestamp=' + new Date().getTime(),
@@ -132,7 +140,7 @@ export default {
           withCredentials: true
         })
           .then((response) => {
-            store.commit('setUser', null)
+            store.commit('setUser', undefined)
             resolve(response.data)
           })
           .catch((error) => {
