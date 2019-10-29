@@ -9,7 +9,7 @@ export default (api, router, db) => {
         return
       }
 
-      if (!req.session.groups.include(req.params.id)) {
+      if (!req.session.groups.includes(parseInt(req.params.id))) {
         res.json({ error: 'not_in_group' })
         return
       }
@@ -47,7 +47,7 @@ export default (api, router, db) => {
         return
       }
 
-      if (!req.session.groups.include(req.params.id)) {
+      if (!req.session.groups.includes(parseInt(req.body.id))) {
         res.json({ error: 'not_in_group' })
         return
       }
