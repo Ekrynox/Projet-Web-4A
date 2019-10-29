@@ -1,7 +1,10 @@
 <template>
   <v-card fixed class="pa-4 fill-height d-flex flex-column overflow-y-auto" tile>
     <v-sheet class="fill-height d-flex flex-column">
-      <Message v-for="(message, i) in messages" :key="i" :message="message"/>
+      <template v-for="(messages, i) in sortedMessages">
+        <v-subheader :class="isTheUser(messages[0].user) ? ' ml-auto' : ''" v-html="isTheUser(messages[0].user) ? $store.getters.getUser.pseudo : user.pseudo" :key="'sub-' + i"/>
+        <Message v-for="message in messages" :key="message.id" :message="message.data" :isTheUser="isTheUser(message.user)"/>
+      </template>
     </v-sheet>
     <v-text-field :disabled="user === undefined" v-model="message" label="Message" @keyup.enter="sendMessage"/>
   </v-card>
@@ -24,6 +27,12 @@ export default {
       messagesInterval: undefined
     }
   },
+  beforeDestroy: function () {
+    if (this.messagesInterval !== undefined) {
+      clearInterval(this.messagesInterval)
+      this.messagesInterval = undefined
+    }
+  },
   watch: {
     user: function (val) {
       if (this.messagesInterval !== undefined) {
@@ -35,10 +44,30 @@ export default {
         return
       }
       this.update(val.id)
-      this.messagesInterval = setInterval(() => { this.update(val.id) }, 10000)
+      this.messagesInterval = setInterval(() => { this.update(val.id) }, 5000)
+    }
+  },
+  computed: {
+    sortedMessages: function () {
+      const data = []
+      let tmp = []
+      let last
+      this.messages.forEach(message => {
+        if (last !== undefined && last.user !== message.user) {
+          data.push(tmp)
+          tmp = []
+        }
+        last = message
+        tmp.push(message)
+      })
+      if (tmp.length > 0) {
+        data.push(tmp)
+      }
+      return data
     }
   },
   methods: {
+    isTheUser: function (id) { return this.$store.getters.getUser.id === id },
     sendMessage: function () {
       if (this.user === undefined || this.user.id === undefined) {
         return
