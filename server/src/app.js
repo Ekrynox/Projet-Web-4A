@@ -11,6 +11,7 @@ import loadFriendsRoute from './routes/friends'
 import loadUsersRoute from './routes/users'
 import loadMessagesRoute from './routes/messages'
 import loadGroupsRoute from './routes/groups'
+import loadMessagesGroupsRoute from './routes/messages_groups'
 
 var port = process.env.PORT || 80
 var api = '/api/'
@@ -40,6 +41,7 @@ loadFriendsRoute(api, router, db)
 loadUsersRoute(api, router, db)
 loadMessagesRoute(api, router, db)
 loadGroupsRoute(api, router, db)
+loadMessagesGroupsRoute(api, router, db)
 app.use(router)
 app.use(express.static('./static'))
 
