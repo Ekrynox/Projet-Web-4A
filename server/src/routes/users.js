@@ -57,7 +57,7 @@ export default (api, router, db) => {
 
   // retrieve an user with his id (GET)
   router.route(api + 'users/:id').get((req, res) => {
-    if (req.params.id > 0) {
+    if (req.params.id <= 0) {
       res.json({ error: 'invalid_id' })
       return
     }
