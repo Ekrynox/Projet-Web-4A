@@ -83,6 +83,9 @@ export default {
       return ''
     },
     sendMessage: function () {
+      if (this.message === '') {
+        return
+      }
       if (this.userOrGroup === undefined) {
         return
       }
