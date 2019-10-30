@@ -1,12 +1,6 @@
---
--- Fichier g�n�r� par SQLiteStudio v3.2.1 sur dim. oct. 27 09:43:11 2019
---
--- Encodage texte utilis� : System
---
 PRAGMA foreign_keys = off;
-BEGIN TRANSACTION;
 
--- Table : friends
+-- Table : users_friends
 CREATE TABLE users_friends (user1 INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL, user2 INTEGER REFERENCES users (id) ON DELETE CASCADE NOT NULL);
 
 -- Table : groups
@@ -24,20 +18,4 @@ CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, email 
 -- Table : users_pseudo
 CREATE VIRTUAL TABLE users_pseudo USING FTS5(pseudo);
 
--- Table : users_pseudo_config
-CREATE TABLE 'users_pseudo_config'(k PRIMARY KEY, v) WITHOUT ROWID;
-
--- Table : users_pseudo_content
-CREATE TABLE 'users_pseudo_content'(id INTEGER PRIMARY KEY, c0);
-
--- Table : users_pseudo_data
-CREATE TABLE 'users_pseudo_data'(id INTEGER PRIMARY KEY, block BLOB);
-
--- Table : users_pseudo_docsize
-CREATE TABLE 'users_pseudo_docsize'(id INTEGER PRIMARY KEY, sz BLOB);
-
--- Table : users_pseudo_idx
-CREATE TABLE 'users_pseudo_idx'(segid, term, pgno, PRIMARY KEY(segid, term)) WITHOUT ROWID;
-
-COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
