@@ -122,6 +122,30 @@ export default {
           })
       })
     },
+    updatePseudo (store, pseudo) {
+      return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
+        axios({
+          method: 'put',
+          url: store.getters.getApi + 'users?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          data: {
+            pseudo: pseudo
+          },
+          withCredentials: true
+        })
+          .then((response) => {
+            if (response.data.error === undefined) {
+              store.dispatch('getUser')
+            }
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
     login (store, { email, password }) {
       return new Promise(function (resolve, reject) {
         store.getters.isLogged && resolve({ error: 'already_logged' })

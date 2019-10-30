@@ -31,6 +31,10 @@ export default class {
     this.db.run('UPDATE users SET groups=? WHERE id=?', [groups, id], callback)
   }
 
+  updatePseudo (id, pseudo, callback) {
+    this.db.run('UPDATE users SET pseudo=? WHERE id=?', [pseudo, id], callback)
+  }
+
   getDiscussions (id, callback) {
     this.db.all('SELECT * FROM users WHERE id IN (SELECT user FROM messages_users WHERE user2=?) OR id IN (SELECT user2 FROM messages_users WHERE user=?) OR id IN (SELECT user2 FROM users_friends WHERE user1=?)', [id, id, id], callback)
   }
