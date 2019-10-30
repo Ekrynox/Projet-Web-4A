@@ -12,6 +12,7 @@ export default class {
       if (err) {
         return console.error(err.message)
       }
+      this.db.get('PRAGMA foreign_keys = ON')
     })
     this.users = new Users(this.db)
     this.friends = new Friends(this.db)
