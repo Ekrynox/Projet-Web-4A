@@ -62,7 +62,7 @@ export default {
             }
           }
           this.loading = false
-        }, (err) => {
+        }, () => {
           this.loading = false
         })
       }

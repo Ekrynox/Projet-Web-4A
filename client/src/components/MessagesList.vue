@@ -106,7 +106,7 @@ export default {
             return
           }
           this.messages = []
-        }, (err) => {
+        }, () => {
           this.messages = []
         })
       } else {
@@ -116,7 +116,7 @@ export default {
             return
           }
           this.messages = []
-        }, (err) => {
+        }, () => {
           this.messages = []
         })
       }
