@@ -10,8 +10,11 @@
         </div>
         <UsersGroupsList :items="getDiscussions" v-model="selectedDiscussions"/>
       </v-col>
-      <v-col :cols="10">
+      <v-col :cols="8">
         <MessagesList :userOrGroup="selectedDiscussions"/>
+      </v-col>
+      <v-col :cols="2">
+        <DiscussionsSettings :userOrGroup="selectedDiscussions"/>
       </v-col>
     </v-row>
   </v-col>
@@ -20,9 +23,10 @@
 <script>
 import UsersGroupsList from '../UsersGroupsList'
 import MessagesList from '../MessagesList'
+import DiscussionsSettings from '../DiscussionsSettings'
 
 export default {
-  components: { UsersGroupsList, MessagesList },
+  components: { UsersGroupsList, MessagesList, DiscussionsSettings },
   data: function () {
     return {
       filter: '',
@@ -35,7 +39,7 @@ export default {
       if (filter !== '') {
         filter = '(^' + filter + '| ' + filter + ')'
       }
-      let discussions = Array.from(this.$store.getters.getGroups).filter(group => filter === '' || group.name.match(RegExp(filter, 'gi')) !== null)
+      let discussions = this.$store.getters.getGroups.filter(group => filter === '' || group.name.match(RegExp(filter, 'gi')) !== null)
       discussions = discussions.concat(Array.from(this.$store.getters.getDiscussions).filter(user => filter === '' || user.pseudo.match(RegExp(filter, 'gi')) !== null))
       return discussions
     }

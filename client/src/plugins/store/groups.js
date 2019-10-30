@@ -12,7 +12,9 @@ export default {
     setGroups: (state, groups) => { state.groups = groups },
     setGroup: (state, group) => {
       const index = state.groups.indexOf((item) => item.id === group.id)
-      state.groups[index] = group
+      if (index > -1) {
+        state.groups[index] = group
+      }
     }
   },
   actions: {
@@ -125,7 +127,56 @@ export default {
         })
           .then((response) => {
             if (response.data.error === undefined) {
-              store.dispatch('getGroups')
+              store.dispatch('getGroup', id)
+            } else if (response.data.error === 'not_logged') {
+              store.commit('setUser', undefined)
+            }
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    addUserToGroup (store, { groupid, userid }) {
+      return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
+        axios({
+          method: 'post',
+          url: store.getters.getApi + 'groups/' + groupid + '/users?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          data: {
+            id: userid
+          },
+          withCredentials: true
+        })
+          .then((response) => {
+            if (response.data.error === undefined) {
+              store.dispatch('getGroup', groupid)
+            } else if (response.data.error === 'not_logged') {
+              store.commit('setUser', undefined)
+            }
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    removeUserFromGroup (store, { groupid, userid }) {
+      return new Promise(function (resolve, reject) {
+        !store.getters.isLogged && resolve({ error: 'not_logged' })
+
+        axios({
+          method: 'delete',
+          url: store.getters.getApi + 'groups/' + groupid + '/users/' + userid + '?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          withCredentials: true
+        })
+          .then((response) => {
+            if (response.data.error === undefined) {
+              store.dispatch('getGroup', groupid)
             } else if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }

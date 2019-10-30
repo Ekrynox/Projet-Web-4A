@@ -114,6 +114,7 @@ export default {
           .then((response) => {
             if (response.data.error === 'already_logged') {
               store.dispatch('getUser')
+              store.dispatch('setDiscussions')
             }
             resolve(response.data)
           })

@@ -1,7 +1,7 @@
 <template>
   <v-card fixed class="pa-4 fill-height d-flex flex-column overflow-y-auto" tile>
     <v-sheet class="fill-height d-flex flex-column">
-      <template v-for="(messages, i) in sortedMessages">
+      <template :v-if="userOrGroup !== undefined" v-for="(messages, i) in sortedMessages">
         <v-subheader :class="isTheUser(messages[0].user) ? ' ml-auto' : ''" v-html="getPseudo(messages[0].user)" :key="'sub-' + i"/>
         <Message v-for="message in messages" :key="message.id" :message="message.data" :isTheUser="isTheUser(message.user)"/>
       </template>

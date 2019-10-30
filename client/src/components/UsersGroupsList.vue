@@ -1,6 +1,6 @@
 <template>
   <v-card height="100%" max-height="100%" tile>
-    <v-list>
+    <v-list class="pa-0">
       <v-list-item-group v-model="selected" color="primary">
         <template v-for="(item, i) in items">
           <v-list-item :key="i" :value="item">
