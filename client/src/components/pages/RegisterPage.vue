@@ -18,6 +18,7 @@
         <v-btn class="ma-2" tile color="primary" @click="submit">Register</v-btn>
       </v-col>
     </form>
+    <v-snackbar v-model="snackbar" color="error" top :timeout="5000">Email should have been already used</v-snackbar>
   </v-card>
 </template>
 
@@ -41,7 +42,8 @@ export default {
       pseudo: '',
       password: '',
       passwordbis: '',
-      loading: false
+      loading: false,
+      snackbar: false
     }
   },
   methods: {
@@ -55,11 +57,12 @@ export default {
               this.$router.replace('/login')
               return
             }
-          }
-          if (data.error === 'already_logged') {
+          } else if (data.error === 'already_logged') {
             if (this.$store.getters.isLogged) {
               this.$router.replace('/')
             }
+          } else if (data.error === 'cant_add') {
+            this.snackbar = true
           }
           this.loading = false
         }, () => {

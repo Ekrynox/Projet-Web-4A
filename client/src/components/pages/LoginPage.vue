@@ -12,6 +12,7 @@
         <v-btn class="ma-2" tile color="primary" @click="submit">Login</v-btn>
       </v-col>
     </form>
+    <v-snackbar v-model="snackbar" color="error" top :timeout="5000">Invalid Email/Password</v-snackbar>
   </v-card>
 </template>
 
@@ -31,7 +32,8 @@ export default {
     return {
       email: '',
       password: '',
-      loading: false
+      loading: false,
+      snackbar: false
     }
   },
   methods: {
@@ -41,6 +43,9 @@ export default {
         this.loading = true
         this.$store.dispatch('login', { email: this.email, password: this.password }).then((data) => {
           this.loading = false
+          if (data.error !== undefined && data.error === 'cant_login') {
+            this.snackbar = true
+          }
         }, (err) => {
           console.log(err)
           this.loading = false
