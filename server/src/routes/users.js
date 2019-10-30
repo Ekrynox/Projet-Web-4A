@@ -13,7 +13,6 @@ export default (api, router, db) => {
         res.json({ error: 'cant_get' })
         delete req.session.userid
         delete req.session.pseudo
-        delete req.session.groups
         return console.log(err.message)
       }
 
@@ -21,7 +20,6 @@ export default (api, router, db) => {
         res.json({ error: 'user_not_found' })
         delete req.session.userid
         delete req.session.pseudo
-        delete req.session.groups
         return
       }
 
@@ -51,7 +49,6 @@ export default (api, router, db) => {
       rows.forEach(row => {
         delete row.email
         delete row.password
-        delete row.groups
       })
 
       res.json(rows)
@@ -77,7 +74,6 @@ export default (api, router, db) => {
       }
 
       for (const i in rows) {
-        delete rows[i].groups
         delete rows[i].email
         delete rows[i].password
       }
@@ -103,7 +99,6 @@ export default (api, router, db) => {
         return
       }
 
-      delete row.groups
       delete row.email
       delete row.password
       res.json(row)
@@ -175,6 +170,8 @@ export default (api, router, db) => {
         res.json({ error: 'cant_add' })
         return console.log(err.message)
       }
+
+      req.session.pseudo = htmlspecialchars(req.body.pseudo)
 
       db.users.addPseudo(htmlspecialchars(req.body.pseudo), function (err) {
         if (err) {

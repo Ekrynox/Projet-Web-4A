@@ -3,13 +3,23 @@ import htmlspecialchars from 'htmlspecialchars'
 export default (api, router, db) => {
   // Get user's Messages to a group (GET)
   router.route(api + 'messagesGroups/:id').get((req, res) => {
-    if (req.session.userid) {
-      if (req.params.id <= 0) {
-        res.json({ error: 'invalid_id' })
-        return
+    if (req.session.userid === undefined) {
+      res.json({ error: 'not_logged' })
+      return
+    }
+
+    if (req.params.id <= 0) {
+      res.json({ error: 'invalid_id' })
+      return
+    }
+
+    db.groups.inGroup(req.params.id, req.session.userid, function (err, row) {
+      if (err) {
+        res.json({ error: 'cant_get' })
+        return console.log(err)
       }
 
-      if (!req.session.groups.includes(parseInt(req.params.id))) {
+      if (row === undefined) {
         res.json({ error: 'not_in_group' })
         return
       }
@@ -26,28 +36,35 @@ export default (api, router, db) => {
         }
 
         rows.forEach((message) => { message.data = JSON.parse(message.data) })
-
         res.json(rows)
       })
-      return
-    }
-    res.json({ error: 'not_logged' })
+    })
   })
 
   // Send a message to a group (POST)
   router.route(api + 'messagesGroups').post((req, res) => {
-    if (req.session.userid) {
-      if (req.body === undefined || req.body.id === undefined || req.body.data === undefined) {
-        res.json({ error: 'missing_parameters' })
-        return
+    if (req.session.userid === undefined) {
+      res.json({ error: 'not_logged' })
+      return
+    }
+
+    if (req.body === undefined || req.body.id === undefined || req.body.data === undefined) {
+      res.json({ error: 'missing_parameters' })
+      return
+    }
+
+    if (req.body.id <= 0) {
+      res.json({ error: 'invalid_id' })
+      return
+    }
+
+    db.groups.inGroup(req.params.id, req.session.userid, function (err, row) {
+      if (err) {
+        res.json({ error: 'cant_add' })
+        return console.log(err)
       }
 
-      if (req.body.id <= 0) {
-        res.json({ error: 'invalid_id' })
-        return
-      }
-
-      if (!req.session.groups.includes(parseInt(req.body.id))) {
+      if (row === undefined) {
         res.json({ error: 'not_in_group' })
         return
       }
@@ -66,8 +83,6 @@ export default (api, router, db) => {
 
         res.json({})
       })
-      return
-    }
-    res.json({ error: 'not_logged' })
+    })
   })
 }

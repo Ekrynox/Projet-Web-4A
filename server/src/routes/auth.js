@@ -25,7 +25,6 @@ export default (api, router, db) => {
       delete row.password
       req.session.userid = row.id
       req.session.pseudo = row.pseudo
-      req.session.groups = JSON.parse(row.groups)
       res.json(row)
     })
   })
@@ -39,7 +38,6 @@ export default (api, router, db) => {
 
     delete req.session.userid
     delete req.session.pseudo
-    delete req.session.groups
     res.json({})
   })
 }

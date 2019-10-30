@@ -4,38 +4,30 @@ export default class {
   }
 
   add (email, password, pseudo, callback) {
-    this.db.run('INSERT INTO users (email, password, pseudo)  Values(?, ?, ?)', [email, password, pseudo], callback)
+    this.db.run('INSERT INTO `users` (`email`, `password`, `pseudo`) VALUES (?, ?, ?)', [email, password, pseudo], callback)
   }
 
   addPseudo (pseudo, callback) {
-    this.db.run('INSERT INTO users_pseudo (pseudo)  Values(?)', [pseudo], callback)
+    this.db.run('INSERT INTO `users_pseudo` (`pseudo`) VALUES (?)', [pseudo], callback)
   }
 
   login (email, password, callback) {
-    this.db.get('SELECT * FROM users WHERE email=? AND password=?', [email, password], callback)
+    this.db.get('SELECT * FROM `users` WHERE `email`=? AND `password`=?', [email, password], callback)
   }
 
   get (id, callback) {
-    this.db.get('SELECT * FROM users WHERE id=?', [id], callback)
-  }
-
-  getList (idlist, callback) {
-    this.db.all('SELECT * FROM users WHERE id IN ' + idlist, [], callback)
+    this.db.get('SELECT * FROM `users` WHERE `id`=?', [id], callback)
   }
 
   search (filter, callback) {
-    this.db.all('SELECT * FROM users WHERE pseudo IN (SELECT pseudo FROM users_pseudo WHERE pseudo MATCH ?)', [filter + '*'], callback)
-  }
-
-  updateGroups (id, groups, callback) {
-    this.db.run('UPDATE users SET groups=? WHERE id=?', [groups, id], callback)
+    this.db.all('SELECT * FROM `users` WHERE `pseudo` IN (SELECT `pseudo` FROM `users_pseudo` WHERE `pseudo` MATCH ?)', [filter + '*'], callback)
   }
 
   updatePseudo (id, pseudo, callback) {
-    this.db.run('UPDATE users SET pseudo=? WHERE id=?', [pseudo, id], callback)
+    this.db.run('UPDATE `users` SET `pseudo`=? WHERE `id`=?', [pseudo, id], callback)
   }
 
   getDiscussions (id, callback) {
-    this.db.all('SELECT * FROM users WHERE id IN (SELECT user FROM messages_users WHERE user2=?) OR id IN (SELECT user2 FROM messages_users WHERE user=?) OR id IN (SELECT user2 FROM users_friends WHERE user1=?)', [id, id, id], callback)
+    this.db.all('SELECT * FROM `users` WHERE `id` IN (SELECT `user` FROM `messages_users` WHERE `user2`=?) OR `id` IN (SELECT `user2` FROM `messages_users` WHERE `user`=?) OR `id` IN (SELECT `user2` FROM `users_friends` WHERE `user1`=?)', [id, id, id], callback)
   }
 }
