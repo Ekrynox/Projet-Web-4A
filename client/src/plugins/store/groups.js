@@ -6,16 +6,11 @@ export default {
   },
   getters: {
     getGroups: (state) => state.groups,
+    getGroupUsers: (state) => (id) => (state.groups.find(group => group.id === id) || { users: [] }).users,
     inGroup: (state, getters) => (id) => getters.isLogged && state.user.groups.include(id)
   },
   mutations: {
-    setGroups: (state, groups) => { state.groups = groups },
-    setGroup: (state, group) => {
-      const index = state.groups.indexOf((item) => item.id === group.id)
-      if (index > -1) {
-        state.groups[index] = group
-      }
-    }
+    setGroups: (state, groups) => { state.groups = groups }
   },
   actions: {
     getGroups (store) {
@@ -54,9 +49,7 @@ export default {
           withCredentials: true
         })
           .then((response) => {
-            if (response.data.error === undefined) {
-              store.commit('setGroup', response.data)
-            } else if (response.data.error === 'not_logged') {
+            if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }
             resolve(response.data)
@@ -127,7 +120,7 @@ export default {
         })
           .then((response) => {
             if (response.data.error === undefined) {
-              store.dispatch('getGroup', id)
+              store.dispatch('getGroups')
             } else if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }
@@ -153,7 +146,7 @@ export default {
         })
           .then((response) => {
             if (response.data.error === undefined) {
-              store.dispatch('getGroup', groupid)
+              store.dispatch('getGroups')
             } else if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }
@@ -176,7 +169,7 @@ export default {
         })
           .then((response) => {
             if (response.data.error === undefined) {
-              store.dispatch('getGroup', groupid)
+              store.dispatch('getGroups')
             } else if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }

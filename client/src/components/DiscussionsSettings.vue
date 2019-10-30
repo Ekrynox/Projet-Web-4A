@@ -44,14 +44,14 @@ export default {
       this.$store.getters.getFriends.forEach(user => {
         data.push({ value: user, text: user.pseudo })
       })
-      this.userOrGroup.users.forEach(user => {
+      this.$store.getters.getGroupUsers(this.userOrGroup.id).forEach(user => {
         data = data.filter(row => row.value.id !== user.id)
       })
       return data
     },
     usersToRemove: function () {
       const data = []
-      this.userOrGroup.users.forEach(user => {
+      this.$store.getters.getGroupUsers(this.userOrGroup.id).forEach(user => {
         data.push({ value: user, text: user.pseudo })
       })
       return data

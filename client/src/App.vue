@@ -91,7 +91,7 @@ export default {
         this.friendsInterval = setInterval(() => { this.$store.dispatch('getFriends') }, 300000)
 
         this.$store.dispatch('getGroups')
-        this.groupsInterval = setInterval(() => { this.$store.dispatch('getGroups') }, 300000)
+        this.groupsInterval = setInterval(() => { this.$store.dispatch('getGroups') }, 5000)
 
         this.$store.dispatch('getDiscussions')
         this.discussionsInterval = setInterval(() => { this.$store.dispatch('getDiscussions') }, 5000)
