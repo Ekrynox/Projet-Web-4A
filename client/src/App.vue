@@ -39,6 +39,7 @@ export default {
       friendsInterval: undefined,
       groupsInterval: undefined,
       loggedInterval: undefined,
+      discussionsInterval: undefined,
       settings: false
     }
   },
@@ -61,6 +62,7 @@ export default {
       if (!val) {
         this.$store.commit('setGroups', [])
         this.$store.commit('setFriends', [])
+        this.$store.commit('setDiscussions', [])
         this.settings = false
       }
     }
@@ -80,6 +82,10 @@ export default {
         clearInterval(this.loggedInterval)
         this.loggedInterval = undefined
       }
+      if (this.discussionsInterval !== undefined) {
+        clearInterval(this.discussionsInterval)
+        this.discussionsInterval = undefined
+      }
 
       if (isLogged === true) {
         this.$store.dispatch('getFriends')
@@ -87,6 +93,9 @@ export default {
 
         this.$store.dispatch('getGroups')
         this.groupsInterval = setInterval(() => { this.$store.dispatch('getGroups') }, 300000)
+
+        this.$store.dispatch('getDiscussions')
+        this.discussionsInterval = setInterval(() => { this.$store.dispatch('getDiscussions') }, 300000)
 
         this.loggedInterval = setInterval(() => { this.$store.dispatch('getUser') }, 300000)
 

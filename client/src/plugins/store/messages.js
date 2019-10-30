@@ -41,6 +41,9 @@ export default {
             if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }
+            if (response.data.error === undefined) {
+              store.dispatch('getDiscussions')
+            }
             resolve(response.data)
           })
           .catch((error) => {

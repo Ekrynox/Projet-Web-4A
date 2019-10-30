@@ -53,6 +53,7 @@ export default {
           .then((response) => {
             if (response.data.error === undefined) {
               store.dispatch('getFriends')
+              store.dispatch('getDiscussions')
             } else if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }
@@ -76,6 +77,7 @@ export default {
           .then((response) => {
             if (response.data.error === undefined) {
               store.dispatch('getFriends')
+              store.dispatch('getDiscussions')
             } else if (response.data.error === 'not_logged') {
               store.commit('setUser', undefined)
             }

@@ -29,6 +29,33 @@ export default (api, router, db) => {
     res.json({ error: 'not_logged' })
   })
 
+  // Get all friends and user's who send or receive a messages (GET)
+  router.route(api + 'users/discussions').get((req, res) => {
+    if (req.session.userid) {
+      db.users.getDiscussions(req.session.userid, function (err, rows) {
+        if (err) {
+          res.json({ error: 'cant_get' })
+          return console.log(err.message)
+        }
+
+        if (rows === undefined) {
+          res.json('[]')
+          return
+        }
+
+        rows.forEach(row => {
+          delete row.email
+          delete row.password
+          delete row.groups
+        })
+
+        res.json(rows)
+      })
+      return
+    }
+    res.json({ error: 'not_logged' })
+  })
+
   // Search for users from which the pseudo start by the filter (GET)
   router.route(api + 'users/search/:filter').get((req, res) => {
     if (req.session.userid) {

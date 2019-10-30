@@ -2,15 +2,18 @@ import axios from 'axios'
 
 export default {
   state: {
-    user: undefined
+    user: undefined,
+    discussions: []
   },
   getters: {
     isLogged: (state) => state.user !== undefined,
-    getUser: (state) => state.user
+    getUser: (state) => state.user,
+    getDiscussions: (state) => state.discussions
   },
   mutations: {
     setLogged: (state, logged) => { state.logged = logged },
-    setUser: (state, user) => { state.user = user }
+    setUser: (state, user) => { state.user = user },
+    setDiscussions: (state, discussions) => { state.discussions = discussions }
   },
   actions: {
     getUser (store, id) {
@@ -43,6 +46,25 @@ export default {
           withCredentials: true
         })
           .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+    getDiscussions (store) {
+      return new Promise(function (resolve, reject) {
+        axios({
+          method: 'get',
+          url: store.getters.getApi + 'users/discussions?timestamp=' + new Date().getTime(),
+          responseType: 'json',
+          withCredentials: true
+        })
+          .then((response) => {
+            if (response.data.error === undefined) {
+              store.commit('setDiscussions', response.data)
+            }
             resolve(response.data)
           })
           .catch((error) => {

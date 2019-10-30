@@ -32,7 +32,7 @@ export default {
   computed: {
     getDiscussions: function () {
       let discussions = Array.from(this.$store.getters.getGroups)
-      discussions = discussions.concat(Array.from(this.$store.getters.getFriends))
+      discussions = discussions.concat(Array.from(this.$store.getters.getDiscussions))
       return discussions
     }
   },
