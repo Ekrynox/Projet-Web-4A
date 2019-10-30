@@ -46,8 +46,7 @@ export default {
   mounted: function () {
     this.$store.dispatch('getUser').then((data) => {
       this.changeRoute(this.logged)
-    }, (err) => {
-      console.log(err)
+    }, () => {
       this.$router.push('/login')
     })
   },
