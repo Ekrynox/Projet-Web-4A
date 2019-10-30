@@ -297,6 +297,18 @@ export default (api, router, db) => {
           return console.log(err)
         }
 
+        db.groups.getUsers(parseInt(req.params.id), function (err) {
+          if (err) {
+            return console.log(err)
+          }
+
+          db.groups.remove(parseInt(req.params.id), function (err) {
+            if (err) {
+              return console.log(err)
+            }
+          })
+        })
+
         res.json({})
       })
     })

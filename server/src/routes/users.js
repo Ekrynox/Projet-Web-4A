@@ -83,12 +83,12 @@ export default (api, router, db) => {
 
   // retrieve an user with his id (GET)
   router.route(api + 'users/:id').get((req, res) => {
-    if (req.params.id <= 0) {
+    if (parseInt(req.params.id) <= 0) {
       res.json({ error: 'invalid_id' })
       return
     }
 
-    db.users.get(req.params.id, function (err, row) {
+    db.users.get(parseInt(req.params.id), function (err, row) {
       if (err) {
         res.json({ error: 'cant_get' })
         return console.log(err.message)

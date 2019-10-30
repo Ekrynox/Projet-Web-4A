@@ -59,17 +59,17 @@ export default (api, router, db) => {
   // Remove a user from the friends list (DELETE)
   router.route(api + 'friends/:id').delete((req, res) => {
     if (req.session.userid) {
-      if (req.params.id <= 0) {
+      if (parseInt(req.params.id) <= 0) {
         res.json({ error: 'invalid_id' })
         return
       }
 
-      if (req.session.userid === req.params.id) {
+      if (req.session.userid === parseInt(req.params.id)) {
         res.json({ error: 'cant_remove' })
         return
       }
 
-      db.friends.remove(req.session.userid, req.params.id, function (err) {
+      db.friends.remove(req.session.userid, parseInt(req.params.id), function (err) {
         if (err) {
           res.json({ error: 'cant_remove' })
           return console.log(err.message)

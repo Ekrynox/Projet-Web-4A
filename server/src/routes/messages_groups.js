@@ -8,12 +8,12 @@ export default (api, router, db) => {
       return
     }
 
-    if (req.params.id <= 0) {
+    if (parseInt(req.params.id) <= 0) {
       res.json({ error: 'invalid_id' })
       return
     }
 
-    db.groups.inGroup(req.params.id, req.session.userid, function (err, row) {
+    db.groups.inGroup(parseInt(req.params.id), req.session.userid, function (err, row) {
       if (err) {
         res.json({ error: 'cant_get' })
         return console.log(err)
@@ -24,7 +24,7 @@ export default (api, router, db) => {
         return
       }
 
-      db.messagesGroups.get(req.params.id, function (err, rows) {
+      db.messagesGroups.get(parseInt(req.params.id), function (err, rows) {
         if (err) {
           res.json({ error: 'cant_get' })
           return console.log(err.message)
@@ -58,7 +58,7 @@ export default (api, router, db) => {
       return
     }
 
-    db.groups.inGroup(req.params.id, req.session.userid, function (err, row) {
+    db.groups.inGroup(req.body.id, req.session.userid, function (err, row) {
       if (err) {
         res.json({ error: 'cant_add' })
         return console.log(err)

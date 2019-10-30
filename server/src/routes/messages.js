@@ -4,12 +4,12 @@ export default (api, router, db) => {
   // Get user's Messages to another user (GET)
   router.route(api + 'messages/:id').get((req, res) => {
     if (req.session.userid) {
-      if (req.params.id <= 0) {
+      if (parseInt(req.params.id) <= 0) {
         res.json({ error: 'invalid_id' })
         return
       }
 
-      db.messages.get(req.session.userid, req.params.id, function (err, rows) {
+      db.messages.get(req.session.userid, parseInt(req.params.id), function (err, rows) {
         if (err) {
           res.json({ error: 'cant_get' })
           return console.log(err.message)
