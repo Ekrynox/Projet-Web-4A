@@ -234,7 +234,7 @@ export default (api, router, db) => {
       return
     }
 
-    db.groups.inGroup(req.params.id, req.session.userid, function (err, row) {
+    db.groups.inGroup(parseInt(req.params.id), req.session.userid, function (err, row) {
       if (err) {
         res.json({ error: 'cant_add' })
         return console.log(err)
