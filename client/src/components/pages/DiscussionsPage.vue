@@ -31,8 +31,12 @@ export default {
   },
   computed: {
     getDiscussions: function () {
-      let discussions = Array.from(this.$store.getters.getGroups)
-      discussions = discussions.concat(Array.from(this.$store.getters.getDiscussions))
+      let filter = this.filter
+      if (filter !== '') {
+        filter = '(^' + filter + '| ' + filter + ')'
+      }
+      let discussions = Array.from(this.$store.getters.getGroups).filter(group => filter === '' || group.name.match(RegExp(filter, 'gi')) !== null)
+      discussions = discussions.concat(Array.from(this.$store.getters.getDiscussions).filter(user => filter === '' || user.pseudo.match(RegExp(filter, 'gi')) !== null))
       return discussions
     }
   },
