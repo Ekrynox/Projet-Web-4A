@@ -70,6 +70,7 @@ export default (api, router, db) => {
     if (req.session.userid) {
       if (req.session.groups.length <= 0) {
         res.json([])
+        return
       }
 
       let groupslist = '(0'

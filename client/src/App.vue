@@ -95,7 +95,7 @@ export default {
         this.groupsInterval = setInterval(() => { this.$store.dispatch('getGroups') }, 300000)
 
         this.$store.dispatch('getDiscussions')
-        this.discussionsInterval = setInterval(() => { this.$store.dispatch('getDiscussions') }, 300000)
+        this.discussionsInterval = setInterval(() => { this.$store.dispatch('getDiscussions') }, 5000)
 
         this.loggedInterval = setInterval(() => { this.$store.dispatch('getUser') }, 300000)
 

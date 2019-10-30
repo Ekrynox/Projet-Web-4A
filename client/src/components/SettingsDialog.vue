@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="fit-content">
+    <v-dialog v-model="dialog" max-width="min-content">
       <v-card>
         <v-card-title>
           <span class="headline">User Profile</span>
