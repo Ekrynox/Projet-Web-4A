@@ -46,8 +46,7 @@ export default {
           if (data.error !== undefined && data.error === 'cant_login') {
             this.snackbar = true
           }
-        }, (err) => {
-          console.log(err)
+        }, () => {
           this.loading = false
         })
       }
