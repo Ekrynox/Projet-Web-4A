@@ -74,7 +74,7 @@ export default (api, router, db) => {
         return console.log(err.message)
       }
 
-      if (rows === undefined) {
+      if (rows === undefined || rows.length <= 0) {
         res.json([])
         return
       }
@@ -297,16 +297,18 @@ export default (api, router, db) => {
           return console.log(err)
         }
 
-        db.groups.getUsers(parseInt(req.params.id), function (err) {
+        db.groups.getUsers(parseInt(req.params.id), function (err, rows) {
           if (err) {
             return console.log(err)
           }
 
-          db.groups.remove(parseInt(req.params.id), function (err) {
-            if (err) {
-              return console.log(err)
-            }
-          })
+          if (rows === undefined || rows.length <= 0) {
+            db.groups.remove(parseInt(req.params.id), function (err) {
+              if (err) {
+                return console.log(err)
+              }
+            })
+          }
         })
 
         res.json({})

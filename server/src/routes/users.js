@@ -41,7 +41,7 @@ export default (api, router, db) => {
         return console.log(err.message)
       }
 
-      if (rows === undefined) {
+      if (rows === undefined || rows.length <= 0) {
         res.json('[]')
         return
       }
@@ -68,7 +68,7 @@ export default (api, router, db) => {
         return console.log(err.message)
       }
 
-      if (rows === undefined) {
+      if (rows === undefined || rows.length <= 0) {
         res.json([])
         return
       }
